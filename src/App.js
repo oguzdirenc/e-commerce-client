@@ -1,4 +1,5 @@
 import "./App.css";
+import Admin from "./components/Admin";
 import AllBooks from "./components/AllBooks";
 import { Navbar } from "./components/Navbar";
 
@@ -7,6 +8,7 @@ function App() {
     <div className="App">
       <Navbar />
       <AllBooks />
+      <Admin />
     </div>
   );
 }
