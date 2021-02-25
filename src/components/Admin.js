@@ -9,12 +9,53 @@ class Admin extends Component {
   state = {
     books: [],
     bookSearch: "",
+    authorsList: [],
+    temporaryAuthorsList: [],
+    loading: false,
   };
 
   handleAdminBookSearch = () => {
+    this.setState({
+      books: [],
+    });
+
     axios.get(apiUrl + this.state.bookSearch + key).then((response) =>
-      this.setState({
-        books: response.data.items,
+      response.data.items.map((googleBook) => {
+        /* this.setState({
+          temporaryAuthorsList: googleBook.volumeInfo.authors,
+        });
+
+        this.state.temporaryAuthorsList.map((author) =>
+          this.setState({
+            authorsList: [
+              ...this.state.authorsList,
+              { authorName: author.get },
+            ],
+          })
+        );*/
+
+        this.setState({
+          books: [
+            ...this.state.books,
+            {
+              bookName: googleBook.volumeInfo.title
+                ? googleBook.volumeInfo.title
+                : "",
+              bookThumbnail: googleBook.volumeInfo.imageLinks
+                ? googleBook.volumeInfo.imageLinks.smallThumbnail
+                  ? googleBook.volumeInfo.imageLinks.smallThumbnail
+                  : googleBook.volumeInfo.imageLinks.thumbnail
+                  ? googleBook.volumeInfo.imageLinks.thumbnail
+                  : ""
+                : "",
+              authorsList: googleBook.volumeInfo.authors
+                ? googleBook.volumeInfo.authors.map((author) => {
+                    return { authorName: author };
+                  })
+                : "",
+            },
+          ],
+        });
       })
     );
   };

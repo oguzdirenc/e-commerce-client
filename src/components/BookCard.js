@@ -12,7 +12,9 @@ export class BookCard extends Component {
             <Card.Header>{book.bookName}</Card.Header>
             <Card.Meta>
               <span className="date">
-                {book.authorsList.map((author) => author.authorName)}
+                {book.authorsList
+                  ? book.authorsList.map((author) => author.authorName)
+                  : ""}
               </span>
             </Card.Meta>
             <Rating
