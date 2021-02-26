@@ -42,6 +42,26 @@ class Admin extends Component {
                     return { authorName: author };
                   })
                 : "",
+              publisherName: googleBook.volumeInfo.publisher
+                ? googleBook.volumeInfo.publisher
+                : "",
+              publishedDate: googleBook.volumeInfo.publishedDate
+                ? googleBook.volumeInfo.publishedDate
+                : "",
+              bookDescription: googleBook.volumeInfo.description
+                ? googleBook.volumeInfo.description
+                : "",
+              bookPage: googleBook.volumeInfo.pageCount
+                ? googleBook.volumeInfo.pageCount
+                : null,
+              bookPdfDownloadLink: googleBook.volumeInfo.pdf
+                ? googleBook.volumeInfo.pdf.downloadLink
+                  ? googleBook.volumeInfo.pdf.downloadLink
+                  : null
+                : null,
+              bookBuyLink: googleBook.saleInfo.buyLink
+                ? googleBook.saleInfo.buyLink
+                : null,
             },
           ],
         });
