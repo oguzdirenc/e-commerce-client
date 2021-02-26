@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Input, Menu, Dropdown } from "semantic-ui-react";
+import "../styles/Navbar.css";
 
 export class Navbar extends Component {
   state = {
@@ -16,6 +17,7 @@ export class Navbar extends Component {
       <Menu secondary>
         <NavLink to="/allBooks">
           <Menu.Item
+            className="home"
             name="Ana Sayfa"
             active={activeItem === "home"}
             onClick={this.handleItemClick}
@@ -36,11 +38,9 @@ export class Navbar extends Component {
             <Dropdown icon="user">
               <Dropdown.Menu>
                 <Dropdown.Item>Profilim</Dropdown.Item>
-                <Link to="/admin">
-                  <Dropdown.Item as={Link} to="/admin">
-                    Admin
-                  </Dropdown.Item>
-                </Link>
+                <Dropdown.Item as={Link} to="/admin">
+                  Admin
+                </Dropdown.Item>
                 <Dropdown.Item>Favorilerim</Dropdown.Item>
                 <Dropdown.Item>Siparişlerim</Dropdown.Item>
                 <Dropdown.Item>Çıkış Yap</Dropdown.Item>

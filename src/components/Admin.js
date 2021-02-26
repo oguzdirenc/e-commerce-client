@@ -5,6 +5,7 @@ import { apiUrl, key } from "../all_api/api";
 import { Card, Container } from "semantic-ui-react";
 import BookCard from "./BookCard";
 import "../styles/BookCard.css";
+import "../styles/Admin.css";
 
 class Admin extends Component {
   state = {
@@ -22,19 +23,6 @@ class Admin extends Component {
 
     axios.get(apiUrl + this.state.bookSearch + key).then((response) =>
       response.data.items.map((googleBook) => {
-        /* this.setState({
-          temporaryAuthorsList: googleBook.volumeInfo.authors,
-        });
-
-        this.state.temporaryAuthorsList.map((author) =>
-          this.setState({
-            authorsList: [
-              ...this.state.authorsList,
-              { authorName: author.get },
-            ],
-          })
-        );*/
-
         this.setState({
           books: [
             ...this.state.books,
@@ -66,14 +54,20 @@ class Admin extends Component {
       <div>
         <Form onSubmit={this.handleAdminBookSearch}>
           <Input
+            className="search-bar"
             onChange={(event) =>
               this.setState({
                 bookSearch: event.target.value,
               })
             }
-            placeholder="Search ..."
+            placeholder="Ara ..."
           ></Input>
-          <Button onClick={this.handleAdminBookSearch}>Search</Button>
+          <Button
+            className="search-button"
+            onClick={this.handleAdminBookSearch}
+          >
+            Search
+          </Button>
         </Form>
         <Container>
           <Card.Group className="card-group" centered>
