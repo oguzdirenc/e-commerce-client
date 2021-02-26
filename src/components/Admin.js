@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Button, Input } from "semantic-ui-react";
+import { Button, Form, Input } from "semantic-ui-react";
 import { apiUrl, key } from "../all_api/api";
 import { Card, Container } from "semantic-ui-react";
 import BookCard from "./BookCard";
+import "../styles/BookCard.css";
 
 class Admin extends Component {
   state = {
@@ -63,19 +64,21 @@ class Admin extends Component {
   render() {
     return (
       <div>
-        <Input
-          onChange={(event) =>
-            this.setState({
-              bookSearch: event.target.value,
-            })
-          }
-          placeholder="Search ..."
-        ></Input>
-        <Button onClick={this.handleAdminBookSearch}>Search</Button>
+        <Form onSubmit={this.handleAdminBookSearch}>
+          <Input
+            onChange={(event) =>
+              this.setState({
+                bookSearch: event.target.value,
+              })
+            }
+            placeholder="Search ..."
+          ></Input>
+          <Button onClick={this.handleAdminBookSearch}>Search</Button>
+        </Form>
         <Container>
-          <Card.Group>
+          <Card.Group className="card-group" centered>
             {this.state.books.map((book) => (
-              <BookCard book={book} />
+              <BookCard cardType="admin" book={book} />
             ))}
           </Card.Group>
         </Container>

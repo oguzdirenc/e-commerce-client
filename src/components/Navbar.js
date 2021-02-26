@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Input, Menu, Dropdown } from "semantic-ui-react";
 
 export class Navbar extends Component {
@@ -36,9 +36,11 @@ export class Navbar extends Component {
             <Dropdown icon="user">
               <Dropdown.Menu>
                 <Dropdown.Item>Profilim</Dropdown.Item>
-                <NavLink to="/admin">
-                  <Dropdown.Item>Admin</Dropdown.Item>
-                </NavLink>
+                <Link to="/admin">
+                  <Dropdown.Item as={Link} to="/admin">
+                    Admin
+                  </Dropdown.Item>
+                </Link>
                 <Dropdown.Item>Favorilerim</Dropdown.Item>
                 <Dropdown.Item>Siparişlerim</Dropdown.Item>
                 <Dropdown.Item>Çıkış Yap</Dropdown.Item>

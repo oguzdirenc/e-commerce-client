@@ -3,6 +3,7 @@ import { Card, Container } from "semantic-ui-react";
 import { getAllBooksUrl } from "../all_api/constants";
 import axios from "axios";
 import BookCard from "./BookCard";
+import "../styles/BookCard.css";
 
 export class AllBooks extends Component {
   state = {
@@ -21,9 +22,9 @@ export class AllBooks extends Component {
     return (
       <div>
         <Container>
-          <Card.Group>
+          <Card.Group className="card-group">
             {this.state.books.map((book) => (
-              <BookCard book={book} />
+              <BookCard cardType="user" key={book.bookId} book={book} />
             ))}
           </Card.Group>
         </Container>
