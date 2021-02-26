@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import { Input, Menu, Dropdown } from "semantic-ui-react";
+import { Input, Menu, Dropdown, Button } from "semantic-ui-react";
 import "../styles/Navbar.css";
+import { testAction } from "../redux/actions/testAction";
 
 export class Navbar extends Component {
   state = {
@@ -33,6 +35,7 @@ export class Navbar extends Component {
             active={activeItem === "Cart"}
             onClick={this.handleItemClick}
           />
+          <Button onClick={() => console.log(this.props)}>Test Button</Button>
 
           <Menu.Item>
             <Dropdown icon="user">
@@ -53,4 +56,10 @@ export class Navbar extends Component {
   }
 }
 
-export default Navbar;
+const mapStateToProps = (state) => {
+  const { test } = state;
+
+  return { test: test };
+};
+
+export default connect(mapStateToProps, { testAction })(Navbar);

@@ -4,18 +4,22 @@ import Admin from "./components/Admin";
 import AllBooks from "./components/AllBooks";
 import { Navbar } from "./components/Navbar";
 import { Route, BrowserRouter, Switch } from "react-router-dom";
+import store from "./redux/store";
+import { Provider } from "react-redux";
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Navbar />
-        <Switch>
-          <Route path="/allBooks" component={AllBooks}></Route>
-          <Route path="/admin" component={Admin}></Route>
-        </Switch>
-      </BrowserRouter>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <BrowserRouter>
+          <Navbar />
+          <Switch>
+            <Route path="/allBooks" component={AllBooks}></Route>
+            <Route path="/admin" component={Admin}></Route>
+          </Switch>
+        </BrowserRouter>
+      </div>
+    </Provider>
   );
 }
 

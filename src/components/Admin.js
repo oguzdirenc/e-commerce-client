@@ -6,6 +6,8 @@ import { Card, Container } from "semantic-ui-react";
 import BookCard from "./BookCard";
 import "../styles/BookCard.css";
 import "../styles/Admin.css";
+import { connect } from "react-redux";
+import { testAction } from "../redux/actions/testAction";
 
 class Admin extends Component {
   state = {
@@ -100,5 +102,10 @@ class Admin extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  const { test } = state;
 
-export default Admin;
+  return { test: test };
+};
+
+export default connect(mapStateToProps, { testAction })(Admin);
