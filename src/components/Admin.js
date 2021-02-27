@@ -19,6 +19,7 @@ class Admin extends Component {
   };
 
   handleAdminBookSearch = () => {
+    this.props.testAction(this.state.loading);
     this.setState({
       books: [],
     });
@@ -43,7 +44,7 @@ class Admin extends Component {
                 ? googleBook.volumeInfo.authors.map((author) => {
                     return { authorName: author };
                   })
-                : "",
+                : this.state.authorsList,
               publisherName: googleBook.volumeInfo.publisher
                 ? googleBook.volumeInfo.publisher
                 : "",

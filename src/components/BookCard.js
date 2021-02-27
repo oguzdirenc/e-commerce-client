@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   Button,
   Card,
@@ -12,6 +13,7 @@ import {
 } from "semantic-ui-react";
 import "../styles/BookCard.css";
 import BookSaveStep from "./BookSaveStep";
+import { testAction } from "../redux/actions/testAction";
 
 export class BookCard extends Component {
   state = {
@@ -19,9 +21,19 @@ export class BookCard extends Component {
     steps: { stepOne: true, stepTwo: false, stepTree: false },
   };
 
+  renderAuthorName = (author) => {};
+
   renderAdminModal = () => {
     return (
-      <Modal open={this.state.openAdminModal}>
+      <Modal
+        onClose={() =>
+          this.setState({
+            openAdminModal: false,
+          })
+        }
+        className="modal-height"
+        open={this.state.openAdminModal}
+      >
         <BookSaveStep steps={this.state.steps} />
 
         {this.state.steps.stepOne && (
@@ -75,6 +87,11 @@ export class BookCard extends Component {
             <Button
               onClick={() => {
                 this.setState({
+                  steps: {
+                    stepOne: false,
+                    stepTwo: false,
+                    stepTree: false,
+                  },
                   openAdminModal: false,
                 });
               }}
@@ -170,6 +187,11 @@ export class BookCard extends Component {
               onClick={() => {
                 this.setState({
                   openAdminModal: true,
+                  steps: {
+                    stepOne: true,
+                    stepTwo: false,
+                    stepTree: false,
+                  },
                 });
               }}
             >
@@ -184,4 +206,4 @@ export class BookCard extends Component {
   }
 }
 
-export default BookCard;
+export default connect(null, { testAction })(BookCard);
