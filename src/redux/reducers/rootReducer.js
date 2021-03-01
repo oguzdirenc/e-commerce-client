@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import testReducer from "./testReducer";
+import bookReducer from "./bookReducer";
+import modalReducer from "./modalReducer";
 
 export default combineReducers({
-  test: testReducer,
+  book: bookReducer,
+  modal: modalReducer,
 });

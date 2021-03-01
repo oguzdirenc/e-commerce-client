@@ -1,4 +1,4 @@
-export const testAction = (data) => {
+export const setAction = (data) => {
   return {
     type: "SET_DATA",
     payload: data,

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { Input, Menu, Dropdown, Button } from "semantic-ui-react";
 import "../styles/Navbar.css";
-import { testAction } from "../redux/actions/testAction";
 
 export class Navbar extends Component {
   state = {
@@ -56,10 +54,8 @@ export class Navbar extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+/*const mapStateToProps = (state) => {
   const { test } = state;
 
   return { test: test };
-};
-
-export default connect(mapStateToProps, { testAction })(Navbar);
+}*/ export default Navbar;

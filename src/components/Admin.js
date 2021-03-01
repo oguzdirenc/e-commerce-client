@@ -7,8 +7,7 @@ import BookCard from "./BookCard";
 import "../styles/BookCard.css";
 import "../styles/Admin.css";
 import { connect } from "react-redux";
-import { testAction } from "../redux/actions/testAction";
-
+import SaveBook from "./SaveBook";
 class Admin extends Component {
   state = {
     books: [],
@@ -16,10 +15,10 @@ class Admin extends Component {
     authorsList: [],
     temporaryAuthorsList: [],
     loading: false,
+    modalOpen: false,
   };
 
   handleAdminBookSearch = () => {
-    this.props.testAction(this.state.loading);
     this.setState({
       books: [],
     });
@@ -99,14 +98,15 @@ class Admin extends Component {
             ))}
           </Card.Group>
         </Container>
+        <SaveBook />
       </div>
     );
   }
 }
 const mapStateToProps = (state) => {
-  const { test } = state;
+  const { book } = state;
 
-  return { test: test };
+  return { book: book };
 };
 
-export default connect(mapStateToProps, { testAction })(Admin);
+export default connect(mapStateToProps, null)(Admin);

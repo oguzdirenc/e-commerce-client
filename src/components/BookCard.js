@@ -8,217 +8,14 @@ import {
   List,
   Popup,
   Rating,
-  Modal,
-  Label,
-  Form,
 } from "semantic-ui-react";
+import { setAction } from "../redux/actions/setAction";
+import { modalAction } from "../redux/actions/modalAction";
 import "../styles/BookCard.css";
-import BookSaveStep from "./BookSaveStep";
-import { testAction } from "../redux/actions/testAction";
 
 export class BookCard extends Component {
   state = {
-    openAdminModal: false,
-    steps: { stepOne: true, stepTwo: false, stepTree: false },
-    book: {},
-    bookCategory: "",
-    bookCategoryList: [],
-  };
-
-  renderAuthorName = (author) => {};
-
-  renderAdminModal = () => {
-    return (
-      <Modal
-        onClose={() =>
-          this.setState({
-            openAdminModal: false,
-          })
-        }
-        className="modal-height"
-        open={this.state.openAdminModal}
-      >
-        <BookSaveStep steps={this.state.steps} />
-
-        {this.state.steps.stepOne && (
-          <div>
-            <Modal.Content image>
-              <Image
-                className="card-image"
-                src={this.props.book.bookThumbnail}
-                wrapped
-              />
-
-              <Form>
-                <Form.Input
-                  value={this.state.book.bookName}
-                  onChange={(event) =>
-                    this.setState({
-                      book: {
-                        ...this.state.book,
-                        bookName: event.target.value,
-                      },
-                    })
-                  }
-                  label="Kitap Adı"
-                  placeholder="Kİtap adını giriniz..."
-                />
-
-                <Form.Input
-                  value={this.state.book.publisherName}
-                  onChange={(event) =>
-                    this.setState({
-                      book: {
-                        ...this.state.book,
-                        publisherName: event.target.value,
-                      },
-                    })
-                  }
-                  label="Yayınevi"
-                  placeholder="Yayınevi giriniz..."
-                />
-                <Form.Input
-                  value={this.state.book.publishedDate}
-                  onChange={(event) =>
-                    this.setState({
-                      book: {
-                        ...this.state.book,
-                        publishedDate: event.target.value,
-                      },
-                    })
-                  }
-                  label="Yayınlanma tarihi"
-                  placeholder="Yayınlanma tarihi giriniz..."
-                />
-
-                <Form.Input
-                  value={this.state.book.bookPage}
-                  onChange={(event) =>
-                    this.setState({
-                      book: {
-                        ...this.state.book,
-                        bookPage: event.target.value,
-                      },
-                    })
-                  }
-                  label="Sayfa Sayısı"
-                  placeholder="Sayfa sayısını giriniz..."
-                />
-
-                <Form.Input
-                  value={this.state.bookCategory}
-                  onChange={(event) =>
-                    this.setState({
-                      bookCategory: event.target.value,
-                    })
-                  }
-                  label="Kategori"
-                  placeholder="Kategori giriniz..."
-                />
-                <Button
-                  onClick={() => {
-                    this.setState({
-                      bookCategoryList: [
-                        ...this.state.bookCategoryList,
-                        { categoryDescription: this.state.bookCategory },
-                      ],
-                      bookCategory: "",
-                    });
-                  }}
-                >
-                  +
-                </Button>
-                {this.state.bookCategoryList.map((category) => (
-                  <Label as="a">
-                    {category.categoryDescription}
-                    <Icon
-                      onClick={() => {
-                        let filteredCategory = this.state.bookCategoryList.filter(
-                          (categoryName) =>
-                            categoryName.categoryDescription !==
-                            category.categoryDescription
-                        );
-                        this.setState({ bookCategoryList: filteredCategory });
-                      }}
-                      name="delete"
-                    />
-                  </Label>
-                ))}
-
-                <Form.TextArea
-                  value={this.state.book.description}
-                  onChange={(event) =>
-                    this.setState({
-                      book: {
-                        ...this.state.book,
-                        description: event.target.value,
-                      },
-                    })
-                  }
-                  label="Açıklama"
-                  placeholder="Açıklama giriniz..."
-                />
-              </Form>
-            </Modal.Content>
-            <Button
-              onClick={() => {
-                this.setState({
-                  steps: {
-                    stepOne: false,
-                    stepTwo: true,
-                    stepTree: false,
-                  },
-                });
-              }}
-            >
-              stepTwo
-            </Button>
-          </div>
-        )}
-
-        {this.state.steps.stepTwo && (
-          <div>
-            <Modal.Content>
-              <Modal.Header>
-                {this.props.book.authorsList.map((author) => author.authorName)}
-              </Modal.Header>
-            </Modal.Content>
-            <Button
-              onClick={() => {
-                this.setState({
-                  steps: {
-                    stepOne: false,
-                    stepTwo: false,
-                    stepTree: true,
-                  },
-                });
-              }}
-            >
-              stepTree
-            </Button>
-          </div>
-        )}
-
-        {this.state.steps.stepTree && (
-          <div>
-            <Button
-              onClick={() => {
-                this.setState({
-                  steps: {
-                    stepOne: false,
-                    stepTwo: false,
-                    stepTree: false,
-                  },
-                  openAdminModal: false,
-                });
-              }}
-            >
-              close tab
-            </Button>
-          </div>
-        )}
-      </Modal>
-    );
+    openModal: "false",
   };
 
   render() {
@@ -227,7 +24,7 @@ export class BookCard extends Component {
     return (
       <div>
         <Card className="card">
-          <Card.Content fluid>
+          <Card.Content fluid="true">
             <Card.Content>
               <Image
                 className="card-image"
@@ -302,15 +99,8 @@ export class BookCard extends Component {
           {cardType === "admin" && (
             <Button
               onClick={() => {
-                this.setState({
-                  book: this.props.book,
-                  openAdminModal: true,
-                  steps: {
-                    stepOne: true,
-                    stepTwo: false,
-                    stepTree: false,
-                  },
-                });
+                this.props.setAction(book);
+                this.props.modalAction(true);
               }}
             >
               Stok Oluştur
@@ -318,10 +108,9 @@ export class BookCard extends Component {
           )}
           {cardType === "user" && <Button>Sepete Ekle</Button>}
         </Card>
-        {this.renderAdminModal(book)}
       </div>
     );
   }
 }
 
-export default connect(null, { testAction })(BookCard);
+export default connect(null, { setAction, modalAction })(BookCard);
