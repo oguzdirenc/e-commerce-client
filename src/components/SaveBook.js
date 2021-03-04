@@ -12,16 +12,20 @@ class SaveBook extends Component {
     book: {},
   };
 
-  componentDidMount() {
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      book: this.props.book,
+      book: nextProps.book,
     });
   }
+  handleModalOnClose = () => {
+    this.props.modalAction(false);
+    this.setState({ book: {} });
+  };
 
   renderAdminModal = () => {
     return (
       <Modal
-        onClose={() => this.props.modalAction(false)}
+        onClose={this.handleModalOnClose}
         className="modal-height"
         open={this.props.modal}
       >
@@ -190,9 +194,10 @@ class SaveBook extends Component {
           <div>
             <Button
               onClick={() => {
+                this.props.modalAction(false);
                 this.setState({
                   steps: {
-                    stepOne: false,
+                    stepOne: true,
                     stepTwo: false,
                     stepTree: false,
                   },
