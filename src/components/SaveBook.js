@@ -1,15 +1,23 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { connect } from "react-redux";
 import { Button, Icon, Image, Modal, Label, Form } from "semantic-ui-react";
 import BookSaveStep from "./BookSaveStep";
 import { modalAction } from "../redux/actions/modalAction";
+import { saveBookUrl, categoryToBookUrl } from "../all_api/constants";
 
 class SaveBook extends Component {
   state = {
     steps: { stepOne: true, stepTwo: false, stepTree: false },
-    bookCategoryList: [],
+    categoryList: [],
     bookCategory: "",
     book: {},
+    authorOne: "",
+    authorTwo: "",
+    authorOneDesc: "",
+    authorTwoDesc: "",
+    authorOneUrl: "",
+    authorTwoUrl: "",
   };
 
   componentWillReceiveProps(nextProps) {
@@ -19,7 +27,87 @@ class SaveBook extends Component {
   }
   handleModalOnClose = () => {
     this.props.modalAction(false);
-    this.setState({ book: {} });
+    this.setState({
+      steps: { stepOne: true, stepTwo: false, stepTree: false },
+      book: {},
+    });
+  };
+
+  handleFirstButton = async () => {
+    const {
+      bookName,
+      bookThumbnail,
+      publishedDate,
+      publisherName,
+      bookPage,
+      description,
+      authorsList,
+    } = this.state.book;
+    {
+      this.state.book.authorsList[0]
+        ? this.setState({
+            authorOne: this.state.book.authorsList[0].authorName,
+          })
+        : this.setState({
+            authorOne: "",
+          });
+    }
+    {
+      this.state.book.authorsList[1]
+        ? this.setState({
+            authorTwo: this.state.book.authorsList[1].authorName,
+          })
+        : this.setState({
+            authorTwo: "",
+          });
+    }
+
+    await axios
+      .post(saveBookUrl, {
+        bookName: bookName,
+        bookThumbnail: bookThumbnail,
+        publishedDate: publishedDate,
+        publisherName: publisherName,
+        bookPage: bookPage,
+        description: description,
+        authorsList: authorsList,
+      })
+      .then((response) => {
+        this.setState({
+          book: response.data,
+        });
+      });
+
+    axios
+      .post(
+        `${categoryToBookUrl}/${this.state.book.bookId}`,
+        this.state.categoryList
+      )
+      .then((response) =>
+        this.setState({
+          book: response.data,
+        })
+      );
+
+    this.setState({
+      steps: {
+        stepOne: false,
+        stepTwo: true,
+        stepTree: false,
+      },
+    });
+
+    console.log(this.state.categoryList);
+  };
+
+  handleSecondButton = () => {
+    this.setState({
+      steps: {
+        stepOne: false,
+        stepTwo: false,
+        stepTree: true,
+      },
+    });
   };
 
   renderAdminModal = () => {
@@ -109,8 +197,8 @@ class SaveBook extends Component {
                 <Button
                   onClick={() => {
                     this.setState({
-                      bookCategoryList: [
-                        ...this.state.bookCategoryList,
+                      categoryList: [
+                        ...this.state.categoryList,
                         { categoryDescription: this.state.bookCategory },
                       ],
                       bookCategory: "",
@@ -119,17 +207,17 @@ class SaveBook extends Component {
                 >
                   +
                 </Button>
-                {this.state.bookCategoryList.map((category) => (
-                  <Label as="a">
+                {this.state.categoryList.map((category) => (
+                  <Label key={category.categoryDescription} as="a">
                     {category.categoryDescription}
                     <Icon
                       onClick={() => {
-                        let filteredCategory = this.state.bookCategoryList.filter(
+                        let filteredCategory = this.state.categoryList.filter(
                           (categoryName) =>
                             categoryName.categoryDescription !==
                             category.categoryDescription
                         );
-                        this.setState({ bookCategoryList: filteredCategory });
+                        this.setState({ categoryList: filteredCategory });
                       }}
                       name="delete"
                     />
@@ -151,42 +239,76 @@ class SaveBook extends Component {
                 />
               </Form>
             </Modal.Content>
-            <Button
-              onClick={() => {
-                this.setState({
-                  steps: {
-                    stepOne: false,
-                    stepTwo: true,
-                    stepTree: false,
-                  },
-                });
-              }}
-            >
-              stepTwo
-            </Button>
+            <Button onClick={this.handleFirstButton}>stepTwo</Button>
           </div>
         )}
 
         {this.state.steps.stepTwo && (
           <div>
-            <Modal.Content>
-              <Modal.Header>
-                {this.props.book.authorsList.map((author) => author.authorName)}
-              </Modal.Header>
-            </Modal.Content>
-            <Button
-              onClick={() => {
-                this.setState({
-                  steps: {
-                    stepOne: false,
-                    stepTwo: false,
-                    stepTree: true,
-                  },
-                });
-              }}
-            >
-              stepTree
-            </Button>
+            <Form>
+              <Form.Input
+                label={"Yazar Adı"}
+                value={this.state.authorOne}
+                onChange={(event) =>
+                  this.setState({
+                    authorOne: event.target.value,
+                  })
+                }
+                placeholder={"Yazar Adı Giriniz..."}
+              />
+              <Form.Input
+                label={"Fotoğraf Url Adresi"}
+                value={this.state.authorOneUrl}
+                onChange={(event) =>
+                  this.setState({
+                    authorOneUrl: event.target.value,
+                  })
+                }
+                placeholder={"Url Adresi Giriniz..."}
+              />
+              <Form.TextArea
+                value={this.state.authorOneDesc}
+                onChange={(event) =>
+                  this.setState({
+                    authorOneDesc: event.target.value,
+                  })
+                }
+                label="Açıklama"
+                placeholder="Açıklama giriniz..."
+              />
+              <Form.Input
+                label={"Yazar Adı"}
+                value={this.state.authorTwo}
+                onChange={(event) =>
+                  this.setState({
+                    authorTwo: event.target.value,
+                  })
+                }
+                placeholder={"Yazar Adı Giriniz..."}
+              />
+              <Form.Input
+                label={"Fotoğraf Url Adresi"}
+                value={this.state.authorTwoUrl}
+                onChange={(event) =>
+                  this.setState({
+                    authorTwoUrl: event.target.value,
+                  })
+                }
+                placeholder={"Url Adresi Giriniz..."}
+              />
+              <Form.TextArea
+                value={this.state.authorTwoDesc}
+                onChange={(event) =>
+                  this.setState({
+                    authorTwoDesc: event.target.value,
+                  })
+                }
+                label="Açıklama"
+                placeholder="Açıklama giriniz..."
+              />
+            </Form>
+
+            <Button onClick={this.handleSecondButton}>stepTree</Button>
           </div>
         )}
 
@@ -217,7 +339,6 @@ class SaveBook extends Component {
     return <div>{this.renderAdminModal()}</div>;
   }
 }
-
 const mapStateToProps = (state) => {
   const { modal, book } = state;
 
