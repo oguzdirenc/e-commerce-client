@@ -8,12 +8,12 @@ import "../styles/BookCard.css";
 import "../styles/Admin.css";
 import { connect } from "react-redux";
 import SaveBook from "./SaveBook";
+
 class Admin extends Component {
   state = {
     books: [],
     bookSearch: "",
     authorsList: [],
-    temporaryAuthorsList: [],
     loading: false,
     modalOpen: false,
   };
@@ -40,10 +40,8 @@ class Admin extends Component {
                   : ""
                 : "",
               authorsList: googleBook.volumeInfo.authors
-                ? googleBook.volumeInfo.authors.map((author) => {
-                    return { authorName: author };
-                  })
-                : this.state.authorsList,
+                ? googleBook.volumeInfo.authors
+                : ["", ""],
               publisherName: googleBook.volumeInfo.publisher
                 ? googleBook.volumeInfo.publisher
                 : "",
@@ -94,7 +92,11 @@ class Admin extends Component {
         <Container>
           <Card.Group className="card-group" centered>
             {this.state.books.map((book) => (
-              <BookCard cardType="admin" book={book} />
+              <BookCard
+                cardType="admin"
+                book={book}
+                authorsList={this.state.authorsList}
+              />
             ))}
           </Card.Group>
         </Container>

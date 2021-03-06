@@ -7,7 +7,7 @@ export default class BookSaveStep extends Component {
       <div>
         <Step.Group fluid>
           <Step active={this.props.steps.stepOne}>
-            <Icon name="truck" />
+            <Icon name="book" />
             <Step.Content>
               <Step.Title>Kitap</Step.Title>
               <Step.Description>
@@ -17,7 +17,7 @@ export default class BookSaveStep extends Component {
           </Step>
 
           <Step active={this.props.steps.stepTwo}>
-            <Icon name="payment" />
+            <Icon name="user" />
             <Step.Content>
               <Step.Title>Yazar</Step.Title>
               <Step.Description>

@@ -4,32 +4,51 @@ import { connect } from "react-redux";
 import { Button, Icon, Image, Modal, Label, Form } from "semantic-ui-react";
 import BookSaveStep from "./BookSaveStep";
 import { modalAction } from "../redux/actions/modalAction";
-import { saveBookUrl, categoryToBookUrl } from "../all_api/constants";
+import {
+  saveBookUrl,
+  updateBookUrl,
+  categoryToBookUrl,
+  putAuthorToBookUrl,
+} from "../all_api/constants";
 
 class SaveBook extends Component {
   state = {
     steps: { stepOne: true, stepTwo: false, stepTree: false },
     categoryList: [],
     bookCategory: "",
+    temporaryBook: {},
     book: {},
-    authorOne: "",
-    authorTwo: "",
-    authorOneDesc: "",
-    authorTwoDesc: "",
-    authorOneUrl: "",
-    authorTwoUrl: "",
+    authorsList: [],
+    authorOne: {
+      authorName: "",
+      authorBio: "",
+      authorThumbnail: "",
+    },
+    authorTwo: {
+      authorName: "",
+      authorBio: "",
+      authorThumbnail: "",
+    },
   };
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       book: nextProps.book,
+      authorsList: nextProps.book.authorsList,
+      temporaryBook: {
+        bookPdfDownloadLink: nextProps.book.bookPdfDownloadLink,
+        bookBuyLink: nextProps.book.bookBuyLink,
+      },
     });
   }
+
   handleModalOnClose = () => {
     this.props.modalAction(false);
     this.setState({
       steps: { stepOne: true, stepTwo: false, stepTree: false },
       book: {},
+      categoryList: [],
+      bookCategory: "",
     });
   };
 
@@ -41,26 +60,7 @@ class SaveBook extends Component {
       publisherName,
       bookPage,
       description,
-      authorsList,
     } = this.state.book;
-    {
-      this.state.book.authorsList[0]
-        ? this.setState({
-            authorOne: this.state.book.authorsList[0].authorName,
-          })
-        : this.setState({
-            authorOne: "",
-          });
-    }
-    {
-      this.state.book.authorsList[1]
-        ? this.setState({
-            authorTwo: this.state.book.authorsList[1].authorName,
-          })
-        : this.setState({
-            authorTwo: "",
-          });
-    }
 
     await axios
       .post(saveBookUrl, {
@@ -70,7 +70,6 @@ class SaveBook extends Component {
         publisherName: publisherName,
         bookPage: bookPage,
         description: description,
-        authorsList: authorsList,
       })
       .then((response) => {
         this.setState({
@@ -78,16 +77,10 @@ class SaveBook extends Component {
         });
       });
 
-    axios
-      .post(
-        `${categoryToBookUrl}/${this.state.book.bookId}`,
-        this.state.categoryList
-      )
-      .then((response) =>
-        this.setState({
-          book: response.data,
-        })
-      );
+    axios.post(
+      `${categoryToBookUrl}/${this.state.book.bookId}`,
+      this.state.categoryList
+    );
 
     this.setState({
       steps: {
@@ -95,19 +88,58 @@ class SaveBook extends Component {
         stepTwo: true,
         stepTree: false,
       },
+      authorOne: {
+        authorName: this.state.authorsList[0] ? this.state.authorsList[0] : "",
+      },
+      authorTwo: {
+        authorName: this.state.authorsList[1] ? this.state.authorsList[1] : "",
+      },
     });
-
-    console.log(this.state.categoryList);
   };
 
   handleSecondButton = () => {
-    this.setState({
-      steps: {
-        stepOne: false,
-        stepTwo: false,
-        stepTree: true,
+    this.setState(
+      {
+        steps: {
+          stepOne: false,
+          stepTwo: false,
+          stepTree: true,
+        },
+        authorsList: [this.state.authorOne, this.state.authorTwo],
+        categoryList: [],
       },
+      () => {
+        axios
+          .post(
+            `${putAuthorToBookUrl}/${this.state.book.bookId}`,
+            this.state.authorsList
+          )
+          .then((response) =>
+            this.setState({
+              book: {
+                ...response.data,
+                bookPdfDownloadLink: this.state.temporaryBook
+                  .bookPdfDownloadLink,
+                bookBuyLink: this.state.temporaryBook.bookBuyLink,
+              },
+            })
+          );
+      }
+    );
+  };
+
+  handleThirdButton = () => {
+    this.props.modalAction(false);
+    this.setState({
+      categoryList: [],
+      steps: {
+        stepOne: true,
+        stepTwo: false,
+        stepTree: false,
+      },
+      openAdminModal: false,
     });
+    axios.post(saveBookUrl, this.state.book);
   };
 
   renderAdminModal = () => {
@@ -225,12 +257,12 @@ class SaveBook extends Component {
                 ))}
 
                 <Form.TextArea
-                  value={this.state.book.description}
+                  value={this.state.book.bookDescription}
                   onChange={(event) =>
                     this.setState({
                       book: {
                         ...this.state.book,
-                        description: event.target.value,
+                        bookDescription: event.target.value,
                       },
                     })
                   }
@@ -248,29 +280,38 @@ class SaveBook extends Component {
             <Form>
               <Form.Input
                 label={"Yazar Adı"}
-                value={this.state.authorOne}
+                value={this.state.authorOne.authorName}
                 onChange={(event) =>
                   this.setState({
-                    authorOne: event.target.value,
+                    authorOne: {
+                      ...this.state.authorOne,
+                      authorName: event.target.value,
+                    },
                   })
                 }
                 placeholder={"Yazar Adı Giriniz..."}
               />
               <Form.Input
                 label={"Fotoğraf Url Adresi"}
-                value={this.state.authorOneUrl}
+                value={this.state.authorOne.authorThumbnail}
                 onChange={(event) =>
                   this.setState({
-                    authorOneUrl: event.target.value,
+                    authorOne: {
+                      ...this.state.authorOne,
+                      authorThumbnail: event.target.value,
+                    },
                   })
                 }
                 placeholder={"Url Adresi Giriniz..."}
               />
               <Form.TextArea
-                value={this.state.authorOneDesc}
+                value={this.state.authorOne.authorBio}
                 onChange={(event) =>
                   this.setState({
-                    authorOneDesc: event.target.value,
+                    authorOne: {
+                      ...this.state.authorOne,
+                      authorBio: event.target.value,
+                    },
                   })
                 }
                 label="Açıklama"
@@ -278,29 +319,38 @@ class SaveBook extends Component {
               />
               <Form.Input
                 label={"Yazar Adı"}
-                value={this.state.authorTwo}
+                value={this.state.authorTwo.authorName}
                 onChange={(event) =>
                   this.setState({
-                    authorTwo: event.target.value,
+                    authorTwo: {
+                      ...this.state.authorTwo,
+                      authorName: event.target.value,
+                    },
                   })
                 }
                 placeholder={"Yazar Adı Giriniz..."}
               />
               <Form.Input
                 label={"Fotoğraf Url Adresi"}
-                value={this.state.authorTwoUrl}
+                value={this.state.authorTwo.authorThumbnail}
                 onChange={(event) =>
                   this.setState({
-                    authorTwoUrl: event.target.value,
+                    authorTwo: {
+                      ...this.state.authorTwo,
+                      authorThumbnail: event.target.value,
+                    },
                   })
                 }
                 placeholder={"Url Adresi Giriniz..."}
               />
               <Form.TextArea
-                value={this.state.authorTwoDesc}
+                value={this.state.authorTwo.authorBio}
                 onChange={(event) =>
                   this.setState({
-                    authorTwoDesc: event.target.value,
+                    authorTwo: {
+                      ...this.state.authorTwo,
+                      authorBio: event.target.value,
+                    },
                   })
                 }
                 label="Açıklama"
@@ -314,21 +364,61 @@ class SaveBook extends Component {
 
         {this.state.steps.stepTree && (
           <div>
-            <Button
-              onClick={() => {
-                this.props.modalAction(false);
-                this.setState({
-                  steps: {
-                    stepOne: true,
-                    stepTwo: false,
-                    stepTree: false,
-                  },
-                  openAdminModal: false,
-                });
-              }}
-            >
-              close tab
-            </Button>
+            <Form>
+              <Form.Input
+                label={"E-Kitap indirme linki"}
+                value={this.state.book.bookPdfDownloadLink}
+                onChange={(event) =>
+                  this.setState({
+                    book: {
+                      ...this.state.book,
+                      bookPdfDownloadLink: event.target.value,
+                    },
+                  })
+                }
+                placeholder={"Url Adresi Giriniz..."}
+              />
+              <Form.Input
+                label={"E-Kitap satın alma linki"}
+                value={this.state.book.bookBuyLink}
+                onChange={(event) =>
+                  this.setState({
+                    book: {
+                      ...this.state.book,
+                      bookBuyLink: event.target.value,
+                    },
+                  })
+                }
+                placeholder={"Url Adresi Giriniz..."}
+              />
+              <Form.Input
+                label={"Kitap fiyatını giriniz"}
+                value={this.state.book.bookPrice}
+                onChange={(event) =>
+                  this.setState({
+                    book: {
+                      ...this.state.book,
+                      bookPrice: event.target.value,
+                    },
+                  })
+                }
+                placeholder={"Fiyatı giriniz..."}
+              />
+              <Form.Input
+                label={"Stok miktarını giriniz"}
+                value={this.state.book.bookStock}
+                onChange={(event) =>
+                  this.setState({
+                    book: {
+                      ...this.state.book,
+                      bookStock: event.target.value,
+                    },
+                  })
+                }
+                placeholder={"Fiyatı giriniz..."}
+              />
+              <Button onClick={this.handleThirdButton}>close tab</Button>
+            </Form>
           </div>
         )}
       </Modal>

@@ -54,18 +54,18 @@ export class BookCard extends Component {
                 <List>
                   {book.authorsList
                     ? book.authorsList.map((author) =>
-                        author.authorName.length <= 21 ? (
-                          <List.Item> {author.authorName}</List.Item>
+                        author.length <= 21 ? (
+                          <List.Item> {author}</List.Item>
                         ) : (
                           <Popup
                             trigger={
                               <List.Item>
-                                {author.authorName.substring(0, 17) + " ..."}
+                                {author.substring(0, 17) + " ..."}
                               </List.Item>
                             }
                             position="bottom right"
                           >
-                            <Popup.Content>{author.authorName}</Popup.Content>
+                            <Popup.Content>{author}</Popup.Content>
                           </Popup>
                         )
                       )
