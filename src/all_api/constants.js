@@ -8,6 +8,8 @@ export const saveBookUrl = rootUrl + bookUrl + "/save";
 
 export const updateBookUrl = rootUrl + bookUrl + "/update";
 
+export const addToShoppingCartUrl = rootUrl + bookUrl + "/order";
+
 const categoryUrl = rootUrl + "/api/category";
 
 export const categoryToBookUrl = categoryUrl + "/setCategory";

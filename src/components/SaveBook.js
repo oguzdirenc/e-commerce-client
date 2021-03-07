@@ -1,15 +1,24 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { Button, Icon, Image, Modal, Label, Form } from "semantic-ui-react";
+import {
+  Button,
+  Icon,
+  Image,
+  Modal,
+  Label,
+  Form,
+  Input,
+  TextArea,
+} from "semantic-ui-react";
 import BookSaveStep from "./BookSaveStep";
 import { modalAction } from "../redux/actions/modalAction";
 import {
   saveBookUrl,
-  updateBookUrl,
   categoryToBookUrl,
   putAuthorToBookUrl,
 } from "../all_api/constants";
+import "../styles/SaveBook.css";
 
 class SaveBook extends Component {
   state = {
@@ -153,92 +162,109 @@ class SaveBook extends Component {
 
         {this.state.steps.stepOne && (
           <div>
-            <Modal.Content image>
+            <Modal.Content className="conteiner-1" image>
               <Image
+                className="conteiner-2 book-image"
                 className="card-image"
                 src={this.state.book.bookThumbnail}
                 wrapped
               />
 
-              <Form>
-                <Form.Input
-                  value={this.state.book.bookName}
-                  onChange={(event) =>
-                    this.setState({
-                      book: {
-                        ...this.state.book,
-                        bookName: event.target.value,
-                      },
-                    })
-                  }
-                  label="Kitap Adı"
-                  placeholder="Kİtap adını giriniz..."
-                />
+              <Form className="conteiner-3">
+                <div className="input">
+                  <label className="label">Kitap Adı :</label>
+                  <Input
+                    className="input-width"
+                    value={this.state.book.bookName}
+                    onChange={(event) =>
+                      this.setState({
+                        book: {
+                          ...this.state.book,
+                          bookName: event.target.value,
+                        },
+                      })
+                    }
+                    placeholder="Kitap adını giriniz..."
+                  />
+                </div>
 
-                <Form.Input
-                  value={this.state.book.publisherName}
-                  onChange={(event) =>
-                    this.setState({
-                      book: {
-                        ...this.state.book,
-                        publisherName: event.target.value,
-                      },
-                    })
-                  }
-                  label="Yayınevi"
-                  placeholder="Yayınevi giriniz..."
-                />
-                <Form.Input
-                  value={this.state.book.publishedDate}
-                  onChange={(event) =>
-                    this.setState({
-                      book: {
-                        ...this.state.book,
-                        publishedDate: event.target.value,
-                      },
-                    })
-                  }
-                  label="Yayınlanma tarihi"
-                  placeholder="Yayınlanma tarihi giriniz..."
-                />
+                <div className="input">
+                  <label className="label">Yayınevi Adı :</label>
+                  <Input
+                    className="input-width"
+                    value={this.state.book.publisherName}
+                    onChange={(event) =>
+                      this.setState({
+                        book: {
+                          ...this.state.book,
+                          publisherName: event.target.value,
+                        },
+                      })
+                    }
+                    placeholder="Yayınevi giriniz..."
+                  />
+                </div>
+                <div className="input">
+                  <label className="label">Yayınlanma Tarihi :</label>
+                  <Input
+                    className="input-width"
+                    value={this.state.book.publishedDate}
+                    onChange={(event) =>
+                      this.setState({
+                        book: {
+                          ...this.state.book,
+                          publishedDate: event.target.value,
+                        },
+                      })
+                    }
+                    placeholder="Yayınlanma tarihi giriniz..."
+                  />
+                </div>
 
-                <Form.Input
-                  value={this.state.book.bookPage}
-                  onChange={(event) =>
-                    this.setState({
-                      book: {
-                        ...this.state.book,
-                        bookPage: event.target.value,
-                      },
-                    })
-                  }
-                  label="Sayfa Sayısı"
-                  placeholder="Sayfa sayısını giriniz..."
-                />
+                <div className="input">
+                  <label className="label">Sayfa Sayısı :</label>
+                  <Input
+                    className="input-width"
+                    value={this.state.book.bookPage}
+                    onChange={(event) =>
+                      this.setState({
+                        book: {
+                          ...this.state.book,
+                          bookPage: event.target.value,
+                        },
+                      })
+                    }
+                    placeholder="Sayfa sayısını giriniz..."
+                  />
+                </div>
+                <div className="input">
+                  <label className="label">Kategori :</label>
+                  <Input
+                    className="category-width"
+                    value={this.state.bookCategory}
+                    onChange={(event) =>
+                      this.setState({
+                        bookCategory: event.target.value,
+                      })
+                    }
+                    placeholder="Kategori giriniz..."
+                  />
 
-                <Form.Input
-                  value={this.state.bookCategory}
-                  onChange={(event) =>
-                    this.setState({
-                      bookCategory: event.target.value,
-                    })
-                  }
-                  label="Kategori"
-                  placeholder="Kategori giriniz..."
-                />
-                <Button
-                  onClick={() => {
-                    this.setState({
-                      categoryList: [
-                        ...this.state.categoryList,
-                        { categoryDescription: this.state.bookCategory },
-                      ],
-                      bookCategory: "",
-                    });
-                  }}
-                >
-                  +
-                </Button>
+                  <Button
+                    className="category-button-width"
+                    onClick={() => {
+                      this.setState({
+                        categoryList: [
+                          ...this.state.categoryList,
+                          { categoryDescription: this.state.bookCategory },
+                        ],
+                        bookCategory: "",
+                      });
+                    }}
+                  >
+                    +
+                  </Button>
+                </div>
                 {this.state.categoryList.map((category) => (
                   <Label key={category.categoryDescription} as="a">
                     {category.categoryDescription}
@@ -255,169 +281,217 @@ class SaveBook extends Component {
                     />
                   </Label>
                 ))}
-
-                <Form.TextArea
-                  value={this.state.book.bookDescription}
-                  onChange={(event) =>
-                    this.setState({
-                      book: {
-                        ...this.state.book,
-                        bookDescription: event.target.value,
-                      },
-                    })
-                  }
-                  label="Açıklama"
-                  placeholder="Açıklama giriniz..."
-                />
               </Form>
             </Modal.Content>
-            <Button onClick={this.handleFirstButton}>stepTwo</Button>
+            <label className="label description">Açıklama :</label>
+            <TextArea
+              className="description"
+              rows="10"
+              value={this.state.book.bookDescription}
+              onChange={(event) =>
+                this.setState({
+                  book: {
+                    ...this.state.book,
+                    bookDescription: event.target.value,
+                  },
+                })
+              }
+              placeholder="Açıklama giriniz..."
+            />
+
+            <Button className="button-align" onClick={this.handleFirstButton}>
+              stepTwo
+            </Button>
           </div>
         )}
 
         {this.state.steps.stepTwo && (
           <div>
             <Form>
-              <Form.Input
-                label={"Yazar Adı"}
-                value={this.state.authorOne.authorName}
-                onChange={(event) =>
-                  this.setState({
-                    authorOne: {
-                      ...this.state.authorOne,
-                      authorName: event.target.value,
-                    },
-                  })
-                }
-                placeholder={"Yazar Adı Giriniz..."}
-              />
-              <Form.Input
-                label={"Fotoğraf Url Adresi"}
-                value={this.state.authorOne.authorThumbnail}
-                onChange={(event) =>
-                  this.setState({
-                    authorOne: {
-                      ...this.state.authorOne,
-                      authorThumbnail: event.target.value,
-                    },
-                  })
-                }
-                placeholder={"Url Adresi Giriniz..."}
-              />
-              <Form.TextArea
-                value={this.state.authorOne.authorBio}
-                onChange={(event) =>
-                  this.setState({
-                    authorOne: {
-                      ...this.state.authorOne,
-                      authorBio: event.target.value,
-                    },
-                  })
-                }
-                label="Açıklama"
-                placeholder="Açıklama giriniz..."
-              />
-              <Form.Input
-                label={"Yazar Adı"}
-                value={this.state.authorTwo.authorName}
-                onChange={(event) =>
-                  this.setState({
-                    authorTwo: {
-                      ...this.state.authorTwo,
-                      authorName: event.target.value,
-                    },
-                  })
-                }
-                placeholder={"Yazar Adı Giriniz..."}
-              />
-              <Form.Input
-                label={"Fotoğraf Url Adresi"}
-                value={this.state.authorTwo.authorThumbnail}
-                onChange={(event) =>
-                  this.setState({
-                    authorTwo: {
-                      ...this.state.authorTwo,
-                      authorThumbnail: event.target.value,
-                    },
-                  })
-                }
-                placeholder={"Url Adresi Giriniz..."}
-              />
-              <Form.TextArea
-                value={this.state.authorTwo.authorBio}
-                onChange={(event) =>
-                  this.setState({
-                    authorTwo: {
-                      ...this.state.authorTwo,
-                      authorBio: event.target.value,
-                    },
-                  })
-                }
-                label="Açıklama"
-                placeholder="Açıklama giriniz..."
-              />
+              <div className="third-step author-border">
+                <div className="second-input">
+                  <label className="second-label">Yazar Adı :</label>
+                  <Input
+                    value={this.state.authorOne.authorName}
+                    className="second-category-width"
+                    onChange={(event) =>
+                      this.setState({
+                        authorOne: {
+                          ...this.state.authorOne,
+                          authorName: event.target.value,
+                        },
+                      })
+                    }
+                    placeholder={"Yazar Adı Giriniz..."}
+                  />
+                </div>
+                <div className="second-input">
+                  <label className="second-label">Fotoğraf Url Adresi :</label>
+                  <Input
+                    className="second-category-width"
+                    value={this.state.authorOne.authorThumbnail}
+                    onChange={(event) =>
+                      this.setState({
+                        authorOne: {
+                          ...this.state.authorOne,
+                          authorThumbnail: event.target.value,
+                        },
+                      })
+                    }
+                    placeholder={"Url Adresi Giriniz..."}
+                  />
+                </div>
+
+                <label className="second-label description">
+                  Yazar Biyografisi :
+                </label>
+                <TextArea
+                  value={this.state.authorOne.authorBio}
+                  onChange={(event) =>
+                    this.setState({
+                      authorOne: {
+                        ...this.state.authorOne,
+                        authorBio: event.target.value,
+                      },
+                    })
+                  }
+                  className="description"
+                  rows="4"
+                  placeholder="Açıklama giriniz..."
+                />
+              </div>
+              <div className="third-step author-border">
+                <div className="second-input">
+                  <label className="second-label">Yazar Adı :</label>
+                  <Input
+                    className="second-category-width"
+                    value={this.state.authorTwo.authorName}
+                    onChange={(event) =>
+                      this.setState({
+                        authorTwo: {
+                          ...this.state.authorTwo,
+                          authorName: event.target.value,
+                        },
+                      })
+                    }
+                    placeholder={"Yazar Adı Giriniz..."}
+                  />
+                </div>
+                <div className="second-input">
+                  <label className="second-label">Fotoğraf Url Adresi :</label>
+                  <Form.Input
+                    className="second-category-width"
+                    value={this.state.authorTwo.authorThumbnail}
+                    onChange={(event) =>
+                      this.setState({
+                        authorTwo: {
+                          ...this.state.authorTwo,
+                          authorThumbnail: event.target.value,
+                        },
+                      })
+                    }
+                    placeholder={"Url Adresi Giriniz..."}
+                  />
+                </div>
+
+                <label className="second-label description">
+                  Yazarın Biyografisi :
+                </label>
+                <TextArea
+                  value={this.state.authorTwo.authorBio}
+                  onChange={(event) =>
+                    this.setState({
+                      authorTwo: {
+                        ...this.state.authorTwo,
+                        authorBio: event.target.value,
+                      },
+                    })
+                  }
+                  className="description"
+                  rows="4"
+                  placeholder="Açıklama giriniz..."
+                />
+              </div>
             </Form>
 
-            <Button onClick={this.handleSecondButton}>stepTree</Button>
+            <Button className="button-align" onClick={this.handleSecondButton}>
+              stepTree
+            </Button>
           </div>
         )}
 
         {this.state.steps.stepTree && (
-          <div>
+          <div className="third-step">
             <Form>
-              <Form.Input
-                label={"E-Kitap indirme linki"}
-                value={this.state.book.bookPdfDownloadLink}
-                onChange={(event) =>
-                  this.setState({
-                    book: {
-                      ...this.state.book,
-                      bookPdfDownloadLink: event.target.value,
-                    },
-                  })
-                }
-                placeholder={"Url Adresi Giriniz..."}
-              />
-              <Form.Input
-                label={"E-Kitap satın alma linki"}
-                value={this.state.book.bookBuyLink}
-                onChange={(event) =>
-                  this.setState({
-                    book: {
-                      ...this.state.book,
-                      bookBuyLink: event.target.value,
-                    },
-                  })
-                }
-                placeholder={"Url Adresi Giriniz..."}
-              />
-              <Form.Input
-                label={"Kitap fiyatını giriniz"}
-                value={this.state.book.bookPrice}
-                onChange={(event) =>
-                  this.setState({
-                    book: {
-                      ...this.state.book,
-                      bookPrice: event.target.value,
-                    },
-                  })
-                }
-                placeholder={"Fiyatı giriniz..."}
-              />
-              <Form.Input
-                label={"Stok miktarını giriniz"}
-                value={this.state.book.bookStock}
-                onChange={(event) =>
-                  this.setState({
-                    book: {
-                      ...this.state.book,
-                      bookStock: event.target.value,
-                    },
-                  })
-                }
-                placeholder={"Fiyatı giriniz..."}
-              />
-              <Button onClick={this.handleThirdButton}>close tab</Button>
+              <div className="second-input">
+                <label className="second-label">E-Kitap İndirme Linki :</label>
+                <Input
+                  className="second-category-width"
+                  value={this.state.book.bookPdfDownloadLink}
+                  onChange={(event) =>
+                    this.setState({
+                      book: {
+                        ...this.state.book,
+                        bookPdfDownloadLink: event.target.value,
+                      },
+                    })
+                  }
+                  placeholder={"Url Adresi Giriniz..."}
+                />
+              </div>
+              <div className="second-input">
+                <label className="second-label">
+                  E-Kitap Satın Alma Linki :
+                </label>
+                <Input
+                  className="second-category-width"
+                  value={this.state.book.bookBuyLink}
+                  onChange={(event) =>
+                    this.setState({
+                      book: {
+                        ...this.state.book,
+                        bookBuyLink: event.target.value,
+                      },
+                    })
+                  }
+                  placeholder={"Url Adresi Giriniz..."}
+                />
+              </div>
+              <div className="second-input">
+                <label className="second-label">Kitap Fiyatı :</label>
+                <Input
+                  className="second-category-width"
+                  value={this.state.book.bookPrice}
+                  onChange={(event) =>
+                    this.setState({
+                      book: {
+                        ...this.state.book,
+                        bookPrice: event.target.value,
+                      },
+                    })
+                  }
+                  placeholder={"Fiyatı giriniz..."}
+                />
+              </div>
+              <div className="second-input">
+                <label className="second-label">Stok Miktarı :</label>
+                <Input
+                  className="second-category-width"
+                  value={this.state.book.bookStock}
+                  onChange={(event) =>
+                    this.setState({
+                      book: {
+                        ...this.state.book,
+                        bookStock: event.target.value,
+                      },
+                    })
+                  }
+                  placeholder={"Fiyatı giriniz..."}
+                />
+              </div>
+              <Button className="button-align" onClick={this.handleThirdButton}>
+                close tab
+              </Button>
             </Form>
           </div>
         )}

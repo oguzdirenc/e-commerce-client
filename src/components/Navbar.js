@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Input, Menu, Dropdown, Button } from "semantic-ui-react";
+import { Input, Menu, Dropdown, Button, Popup } from "semantic-ui-react";
+import { connect } from "react-redux";
 import "../styles/Navbar.css";
 
-export class Navbar extends Component {
+class Navbar extends Component {
   state = {
     activeItem: "home",
+    orderCount: 0,
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -14,7 +16,7 @@ export class Navbar extends Component {
     const { activeItem } = this.state;
 
     return (
-      <Menu secondary>
+      <Menu className="main" secondary>
         <NavLink to="/allBooks">
           <Menu.Item
             className="home"
@@ -26,13 +28,16 @@ export class Navbar extends Component {
         <Menu.Item>
           <Input icon="search" placeholder="Ara..." />
         </Menu.Item>
+        <span className="order-count">{this.props.orderCount}</span>
 
         <Menu.Menu position="right">
           <Menu.Item
             name="sepetim"
+            className="order"
             active={activeItem === "Cart"}
             onClick={this.handleItemClick}
           />
+
           <Button onClick={() => console.log(this.props)}>Test Button</Button>
 
           <Menu.Item>
@@ -54,8 +59,9 @@ export class Navbar extends Component {
   }
 }
 
-/*const mapStateToProps = (state) => {
-  const { test } = state;
+const mapStateToProps = (state) => {
+  const { orderCount } = state;
 
-  return { test: test };
-}*/ export default Navbar;
+  return { orderCount: orderCount };
+};
+export default connect(mapStateToProps, null)(Navbar);

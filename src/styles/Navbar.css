@@ -1,4 +1,22 @@
+.main {
+  background-color: #f6f6f6 !important;
+}
 .home {
   margin-top: 5px !important;
   margin-left: 8px !important;
+}
+.order-count {
+  position: absolute;
+  top: 5px;
+  width: 24px;
+  height: 24px;
+  right: 168px;
+  background-color: #cc0000 !important;
+  border-radius: 10px;
+  text-align: center !important;
+  color: bisque;
+  line-height: 24px;
+}
+.order {
+  font-weight: bold !important;
 }

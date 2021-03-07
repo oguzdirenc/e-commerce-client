@@ -1,7 +1,7 @@
 import "./App.css";
 import Admin from "./components/Admin";
 import AllBooks from "./components/AllBooks";
-import { Navbar } from "./components/Navbar";
+import Navbar from "./components/Navbar";
 import { Route, BrowserRouter, Switch } from "react-router-dom";
 import store from "./redux/store";
 import { Provider } from "react-redux";

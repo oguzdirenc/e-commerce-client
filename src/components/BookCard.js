@@ -11,11 +11,20 @@ import {
 } from "semantic-ui-react";
 import { setAction } from "../redux/actions/setAction";
 import { modalAction } from "../redux/actions/modalAction";
+import { increaseAction } from "../redux/actions/orderAction";
 import "../styles/BookCard.css";
+import axios from "axios";
+import { addToShoppingCartUrl } from "../all_api/constants";
 
 export class BookCard extends Component {
   state = {
     openModal: "false",
+  };
+
+  handleAddToShoppingCart = () => {
+    axios
+      .get(`${addToShoppingCartUrl}/${this.props.book.bookId}`)
+      .then((response) => response && this.props.increaseAction(1));
   };
 
   render() {
@@ -37,15 +46,21 @@ export class BookCard extends Component {
             </Card.Content>
 
             <Card.Header className="card-header" textAlign="center">
-              {book.bookName.length <= 30 ? (
-                book.bookName
+              {book.bookName ? (
+                book.bookName.length <= 30 ? (
+                  book.bookName
+                ) : (
+                  <Popup
+                    trigger={
+                      <div>{book.bookName.substring(0, 27) + " ..."}</div>
+                    }
+                    position="bottom right"
+                  >
+                    <Popup.Content>{book.bookName}</Popup.Content>
+                  </Popup>
+                )
               ) : (
-                <Popup
-                  trigger={<div>{book.bookName.substring(0, 27) + " ..."}</div>}
-                  position="bottom right"
-                >
-                  <Popup.Content>{book.bookName}</Popup.Content>
-                </Popup>
+                ""
               )}
             </Card.Header>
 
@@ -88,14 +103,7 @@ export class BookCard extends Component {
               </Card.Meta>
             )}
           </Card.Content>
-          <Card.Content extra>
-            {cardType === "user" && (
-              <a>
-                <Icon name="user" />
-                22 Friends
-              </a>
-            )}
-          </Card.Content>
+
           {cardType === "admin" && (
             <Button
               onClick={() => {
@@ -106,11 +114,15 @@ export class BookCard extends Component {
               Stok Oluştur
             </Button>
           )}
-          {cardType === "user" && <Button>Sepete Ekle</Button>}
+          {cardType === "user" && (
+            <Button onClick={this.handleAddToShoppingCart}>Sepete Ekle</Button>
+          )}
         </Card>
       </div>
     );
   }
 }
 
-export default connect(null, { setAction, modalAction })(BookCard);
+export default connect(null, { setAction, modalAction, increaseAction })(
+  BookCard
+);
