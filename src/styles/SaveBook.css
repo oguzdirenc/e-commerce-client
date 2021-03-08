@@ -34,6 +34,7 @@
   margin-left: 5% !important;
   margin-right: 5% !important;
   margin-bottom: 4px;
+  padding-bottom: 5px !important;
 }
 .book-image {
   width: 80%;
@@ -66,5 +67,7 @@
 }
 .author-border {
   border-style: double;
-  border-spacing: 5px;
+}
+.modal-height {
+  min-height: 630px;
 }

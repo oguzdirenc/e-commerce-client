@@ -360,6 +360,7 @@ class SaveBook extends Component {
                   placeholder="Açıklama giriniz..."
                 />
               </div>
+
               <div className="third-step author-border">
                 <div className="second-input">
                   <label className="second-label">Yazar Adı :</label>

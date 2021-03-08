@@ -24,7 +24,10 @@ export class BookCard extends Component {
   handleAddToShoppingCart = () => {
     axios
       .get(`${addToShoppingCartUrl}/${this.props.book.bookId}`)
-      .then((response) => response && this.props.increaseAction(1));
+      .then((response) => {
+        console.log(response.data);
+        response.data && this.props.increaseAction(1);
+      });
   };
 
   render() {

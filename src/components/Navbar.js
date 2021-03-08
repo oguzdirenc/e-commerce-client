@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Input, Menu, Dropdown, Button, Popup } from "semantic-ui-react";
+import { Input, Menu, Dropdown, Button, Label } from "semantic-ui-react";
 import { connect } from "react-redux";
 import "../styles/Navbar.css";
 
@@ -16,7 +16,7 @@ class Navbar extends Component {
     const { activeItem } = this.state;
 
     return (
-      <Menu className="main" secondary>
+      <Menu fluid className="main" secondary>
         <NavLink to="/allBooks">
           <Menu.Item
             className="home"
@@ -28,17 +28,20 @@ class Navbar extends Component {
         <Menu.Item>
           <Input icon="search" placeholder="Ara..." />
         </Menu.Item>
-        <span className="order-count">{this.props.orderCount}</span>
 
         <Menu.Menu position="right">
           <Menu.Item
+            fitted="vertically"
             name="sepetim"
             className="order"
             active={activeItem === "Cart"}
             onClick={this.handleItemClick}
-          />
-
-          <Button onClick={() => console.log(this.props)}>Test Button</Button>
+          >
+            Sepetim
+            <Label className="label" color="red" floating fluid>
+              {this.props.orderCount}
+            </Label>
+          </Menu.Item>
 
           <Menu.Item>
             <Dropdown icon="user">

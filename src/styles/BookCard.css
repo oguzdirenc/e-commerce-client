@@ -15,5 +15,5 @@
   margin-top: 5px !important;
 }
 .modal-height {
-  height: 630px;
+  min-height: 630px;
 }

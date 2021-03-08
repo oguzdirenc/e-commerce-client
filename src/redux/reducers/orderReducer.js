@@ -1,4 +1,4 @@
-const initialState = {};
+const initialState = 0;
 let orderCount = 0;
 const orderReducer = (state = initialState, action) => {
   switch (action.type) {

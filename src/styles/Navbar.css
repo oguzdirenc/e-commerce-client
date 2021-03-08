@@ -1,5 +1,8 @@
 .main {
   background-color: #f6f6f6 !important;
+  display: flex;
+  align-items: center;
+  height: 65px;
 }
 .home {
   margin-top: 5px !important;
@@ -19,4 +22,9 @@
 }
 .order {
   font-weight: bold !important;
+  justify-content: space-around;
+}
+.label {
+  display: flex;
+  width: auto;
 }
