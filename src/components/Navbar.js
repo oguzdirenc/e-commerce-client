@@ -31,6 +31,8 @@ class Navbar extends Component {
 
         <Menu.Menu position="right">
           <Menu.Item
+            as={Link}
+            to="/shoppingCart"
             fitted="vertically"
             name="sepetim"
             className="order"
