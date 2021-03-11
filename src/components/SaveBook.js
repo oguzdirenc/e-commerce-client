@@ -15,6 +15,7 @@ import BookSaveStep from "./BookSaveStep";
 import { modalAction } from "../redux/actions/modalAction";
 import {
   saveBookUrl,
+  updateBookUrl,
   categoryToBookUrl,
   putAuthorToBookUrl,
 } from "../all_api/constants";
@@ -139,6 +140,7 @@ class SaveBook extends Component {
 
   handleThirdButton = () => {
     this.props.modalAction(false);
+    console.log(this.state.book);
     this.setState({
       categoryList: [],
       steps: {
@@ -148,7 +150,7 @@ class SaveBook extends Component {
       },
       openAdminModal: false,
     });
-    axios.post(saveBookUrl, this.state.book);
+    axios.post(updateBookUrl, this.state.book);
   };
 
   renderAdminModal = () => {
