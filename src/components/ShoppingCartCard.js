@@ -1,8 +1,20 @@
+import axios from "axios";
 import React, { Component } from "react";
 import { Card, Image, Button } from "semantic-ui-react";
 import "../styles/ShoppingCartCard.css";
+import { setBookOrderUrl } from "../all_api/constants";
 
 class ShoppingCartCard extends Component {
+  handleOrderButton = (order) => {
+    this.setState({ order: this.state.order + order }, () =>
+      axios
+        .post(
+          `${setBookOrderUrl}/${this.props.book.bookId}/${this.state.order}`
+        )
+        .then((response) => console.log(response.data))
+    );
+  };
+
   state = {
     order: this.props.book.orderSize,
   };
@@ -21,15 +33,9 @@ class ShoppingCartCard extends Component {
         </Card.Meta>
 
         <Button.Group>
-          <Button
-            icon="plus"
-            onClick={() => this.setState({ order: this.state.order + 1 })}
-          />
+          <Button icon="plus" onClick={() => this.handleOrderButton(1)} />
           <h3>{this.state.order}</h3>
-          <Button
-            icon="minus"
-            onClick={() => this.setState({ order: this.state.order - 1 })}
-          />
+          <Button icon="minus" onClick={() => this.handleOrderButton(-1)} />
         </Button.Group>
       </Card>
     );

@@ -10,6 +10,8 @@ export const updateBookUrl = bookUrl + "/update";
 
 export const addToShoppingCartUrl = bookUrl + "/order";
 
+export const setBookOrderUrl = bookUrl + "/setOrder";
+
 const categoryUrl = rootUrl + "/api/category";
 
 export const categoryToBookUrl = categoryUrl + "/setCategory";
