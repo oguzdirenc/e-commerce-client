@@ -1,5 +1,38 @@
-.main-card {
+.shopping-card {
+  margin-top: 3% !important;
+  padding: 3% !important;
+  border-style: solid !important;
+  border-radius: 9px !important;
+  border: black;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+}
+.card-button {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 30px !important;
+  height: 30px !important;
+}
+.card-button-group {
+  display: flex;
+  align-items: center !important;
+}
+.card-label {
+  margin: 3px !important;
+}
+.delete-icon {
+  color: black !important;
+}
+.delete-icon:hover {
+  color: red !important;
+}
+.card-content {
+  width: 70% !important;
+}
+.card-button {
+  width: 20% !important;
+}
+.card-delete {
+  width: 10% !important;
 }

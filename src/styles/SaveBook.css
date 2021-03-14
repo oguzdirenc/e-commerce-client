@@ -16,11 +16,11 @@
   margin: 3px;
 }
 .label {
-  width: 25%;
+  width: 25% !important;
   font-weight: bold;
 }
 .input-width {
-  width: 75%;
+  width: 75% !important;
 }
 .category-width {
   width: 50%;
@@ -42,7 +42,8 @@
 }
 .button-align {
   margin-top: 5px !important;
-  margin-left: 85% !important;
+  margin-left: 78% !important;
+  width: 150px !important;
 }
 .conteiner-form {
   display: flex;

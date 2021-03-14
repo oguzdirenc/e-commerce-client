@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { Card, Image, Button } from "semantic-ui-react";
+import { Button, Item, Label, Icon, Grid } from "semantic-ui-react";
 import "../styles/ShoppingCartCard.css";
-import { setBookOrderUrl } from "../all_api/constants";
+import { setBookOrderUrl, deleteBookOrderUrl } from "../all_api/constants";
 
 class ShoppingCartCard extends Component {
   handleOrderButton = (order) => {
@@ -15,6 +15,15 @@ class ShoppingCartCard extends Component {
     );
   };
 
+  handleRemoveOrder = async () => {
+    try {
+      await axios.post(`${deleteBookOrderUrl}/${this.props.book.bookId}`);
+      this.props.remove(this.props.book.bookId);
+    } catch {
+      console.log("Remove failed");
+    }
+  };
+
   state = {
     order: this.props.book.orderSize,
   };
@@ -22,22 +31,55 @@ class ShoppingCartCard extends Component {
     const { book } = this.props;
 
     return (
-      <Card className="main-card">
-        <Image src={book.bookThumbnail}></Image>
+      <Item.Group>
+        <Item className="shopping-card">
+          <Item.Image size="tiny" src={book.bookThumbnail} />
 
-        <Card.Header>{book.bookName}</Card.Header>
-        <Card.Meta>
-          {book.bookAuthorsList
-            ? book.bookAuthorsList.map((author) => author.authorName)
-            : ""}
-        </Card.Meta>
+          <Item.Content className="card-content">
+            <Item.Header>{book.bookName}</Item.Header>
+            <Item.Meta>
+              <span className="cinema">
+                {book.bookAuthorsList
+                  ? book.bookAuthorsList.map((author) => author.authorName)
+                  : ""}
+              </span>
+            </Item.Meta>
+            <Item.Extra>
+              {book.categoryBooksList
+                ? book.categoryBooksList.map((category) => (
+                    <Label>{category.categoryDescription}</Label>
+                  ))
+                : ""}
+            </Item.Extra>
+          </Item.Content>
 
-        <Button.Group>
-          <Button icon="plus" onClick={() => this.handleOrderButton(1)} />
-          <h3>{this.state.order}</h3>
-          <Button icon="minus" onClick={() => this.handleOrderButton(-1)} />
-        </Button.Group>
-      </Card>
+          <Item.Content className="card-button">
+            <Button.Group>
+              <Button
+                className="card-button"
+                icon="minus"
+                onClick={() => this.handleOrderButton(-1)}
+              ></Button>
+              <h3 className="card-label">{this.state.order}</h3>
+              <div className="card-button-group">
+                <Button
+                  className="card-button"
+                  icon="plus"
+                  onClick={() => this.handleOrderButton(1)}
+                />
+              </div>
+            </Button.Group>
+          </Item.Content>
+
+          <Item.Content className="card-delete">
+            <Icon
+              className="delete-icon"
+              onClick={this.handleRemoveOrder}
+              name="delete"
+            ></Icon>
+          </Item.Content>
+        </Item>
+      </Item.Group>
     );
   }
 }

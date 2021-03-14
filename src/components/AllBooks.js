@@ -18,13 +18,25 @@ export class AllBooks extends Component {
     );
   }
 
+  handleRemove = (bookId) => {
+    let filteredBooks = this.state.books.filter(
+      (book) => book.bookId !== bookId
+    );
+    this.setState({ books: filteredBooks });
+  };
+
   render() {
     return (
       <div>
         <Container>
           <Card.Group className="card-group">
             {this.state.books.map((book) => (
-              <BookCard cardType="user" key={book.bookId} book={book} />
+              <BookCard
+                cardType="user"
+                key={book.bookId}
+                book={book}
+                remove={this.handleRemove}
+              />
             ))}
           </Card.Group>
         </Container>

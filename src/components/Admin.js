@@ -8,6 +8,7 @@ import "../styles/BookCard.css";
 import "../styles/Admin.css";
 import { connect } from "react-redux";
 import SaveBook from "./SaveBook";
+import { modalAction } from "../redux/actions/modalAction";
 
 class Admin extends Component {
   state = {
@@ -37,8 +38,8 @@ class Admin extends Component {
                   ? googleBook.volumeInfo.imageLinks.smallThumbnail
                   : googleBook.volumeInfo.imageLinks.thumbnail
                   ? googleBook.volumeInfo.imageLinks.thumbnail
-                  : ""
-                : "",
+                  : "https://nordicdesign.ca/wp-content/uploads/2020/02/book-thumbnail-300x300.jpg"
+                : "https://nordicdesign.ca/wp-content/uploads/2020/02/book-thumbnail-300x300.jpg",
               authorsList: googleBook.volumeInfo.authors
                 ? googleBook.volumeInfo.authors
                 : ["", ""],
@@ -100,6 +101,7 @@ class Admin extends Component {
             ))}
           </Card.Group>
         </Container>
+        <Button onClick={() => this.props.modalAction(true)}>Kitap Ekle</Button>
         <SaveBook />
       </div>
     );
@@ -111,4 +113,4 @@ const mapStateToProps = (state) => {
   return { book: book };
 };
 
-export default connect(mapStateToProps, null)(Admin);
+export default connect(mapStateToProps, { modalAction })(Admin);

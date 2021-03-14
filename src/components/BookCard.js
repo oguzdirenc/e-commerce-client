@@ -14,11 +14,20 @@ import { modalAction } from "../redux/actions/modalAction";
 import { increaseAction } from "../redux/actions/orderAction";
 import "../styles/BookCard.css";
 import axios from "axios";
-import { addToShoppingCartUrl } from "../all_api/constants";
+import { addToShoppingCartUrl, deleteBookUrl } from "../all_api/constants";
 
 export class BookCard extends Component {
   state = {
     openModal: "false",
+  };
+
+  handleDeleteBook = async () => {
+    try {
+      await axios.delete(`${deleteBookUrl}/${this.props.book.bookId}`);
+      this.props.remove(this.props.book.bookId);
+    } catch {
+      console.log("Remove failed");
+    }
   };
 
   handleAddToShoppingCart = () => {
@@ -120,6 +129,8 @@ export class BookCard extends Component {
           {cardType === "user" && (
             <Button onClick={this.handleAddToShoppingCart}>Sepete Ekle</Button>
           )}
+
+          <Button onClick={this.handleDeleteBook}>Kitabı Sil</Button>
         </Card>
       </div>
     );

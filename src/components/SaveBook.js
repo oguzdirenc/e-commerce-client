@@ -10,6 +10,7 @@ import {
   Form,
   Input,
   TextArea,
+  Grid,
 } from "semantic-ui-react";
 import BookSaveStep from "./BookSaveStep";
 import { modalAction } from "../redux/actions/modalAction";
@@ -99,10 +100,16 @@ class SaveBook extends Component {
         stepTree: false,
       },
       authorOne: {
-        authorName: this.state.authorsList[0] ? this.state.authorsList[0] : "",
+        authorName:
+          this.state.authorsList != null && this.state.authorsList[0]
+            ? this.state.authorsList[0]
+            : "",
       },
       authorTwo: {
-        authorName: this.state.authorsList[1] ? this.state.authorsList[1] : "",
+        authorName:
+          this.state.authorsList != null && this.state.authorsList[1]
+            ? this.state.authorsList[1]
+            : "",
       },
     });
   };
@@ -140,7 +147,6 @@ class SaveBook extends Component {
 
   handleThirdButton = () => {
     this.props.modalAction(false);
-    console.log(this.state.book);
     this.setState({
       categoryList: [],
       steps: {
@@ -187,6 +193,23 @@ class SaveBook extends Component {
                       })
                     }
                     placeholder="Kitap adını giriniz..."
+                  />
+                </div>
+
+                <div className="input">
+                  <label className="label">Fotoğraf Url Adresi :</label>
+                  <Input
+                    className="input-width"
+                    value={this.state.book.bookThumbnail}
+                    onChange={(event) =>
+                      this.setState({
+                        book: {
+                          ...this.state.book,
+                          bookThumbnail: event.target.value,
+                        },
+                      })
+                    }
+                    placeholder="Url adresini giriniz..."
                   />
                 </div>
 
@@ -302,7 +325,7 @@ class SaveBook extends Component {
             />
 
             <Button className="button-align" onClick={this.handleFirstButton}>
-              stepTwo
+              Kitap Oluştur
             </Button>
           </div>
         )}
@@ -418,7 +441,7 @@ class SaveBook extends Component {
             </Form>
 
             <Button className="button-align" onClick={this.handleSecondButton}>
-              stepTree
+              Yazar Ekle
             </Button>
           </div>
         )}
@@ -489,11 +512,11 @@ class SaveBook extends Component {
                       },
                     })
                   }
-                  placeholder={"Fiyatı giriniz..."}
+                  placeholder={"Stok miktarını giriniz..."}
                 />
               </div>
               <Button className="button-align" onClick={this.handleThirdButton}>
-                close tab
+                Kaydı Tamamla
               </Button>
             </Form>
           </div>

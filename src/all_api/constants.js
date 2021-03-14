@@ -12,6 +12,10 @@ export const addToShoppingCartUrl = bookUrl + "/order";
 
 export const setBookOrderUrl = bookUrl + "/setOrder";
 
+export const deleteBookOrderUrl = bookUrl + "/delete/order";
+
+export const deleteBookUrl = bookUrl + "/delete";
+
 const categoryUrl = rootUrl + "/api/category";
 
 export const categoryToBookUrl = categoryUrl + "/setCategory";
