@@ -73,45 +73,49 @@ class SaveBook extends Component {
       description,
     } = this.state.book;
 
-    await axios
-      .post(saveBookUrl, {
-        bookName: bookName,
-        bookThumbnail: bookThumbnail,
-        publishedDate: publishedDate,
-        publisherName: publisherName,
-        bookPage: bookPage,
-        description: description,
-      })
-      .then((response) => {
-        this.setState({
-          book: response.data,
+    try {
+      await axios
+        .post(saveBookUrl, {
+          bookName: bookName,
+          bookThumbnail: bookThumbnail,
+          publishedDate: publishedDate,
+          publisherName: publisherName,
+          bookPage: bookPage,
+          description: description,
+        })
+        .then((response) => {
+          this.setState({
+            book: response.data,
+          });
         });
+
+      await axios.post(
+        `${categoryToBookUrl}/${this.state.book.bookId}`,
+        this.state.categoryList
+      );
+
+      this.setState({
+        steps: {
+          stepOne: false,
+          stepTwo: true,
+          stepTree: false,
+        },
+        authorOne: {
+          authorName:
+            this.state.authorsList != null && this.state.authorsList[0]
+              ? this.state.authorsList[0]
+              : "",
+        },
+        authorTwo: {
+          authorName:
+            this.state.authorsList != null && this.state.authorsList[1]
+              ? this.state.authorsList[1]
+              : "",
+        },
       });
-
-    axios.post(
-      `${categoryToBookUrl}/${this.state.book.bookId}`,
-      this.state.categoryList
-    );
-
-    this.setState({
-      steps: {
-        stepOne: false,
-        stepTwo: true,
-        stepTree: false,
-      },
-      authorOne: {
-        authorName:
-          this.state.authorsList != null && this.state.authorsList[0]
-            ? this.state.authorsList[0]
-            : "",
-      },
-      authorTwo: {
-        authorName:
-          this.state.authorsList != null && this.state.authorsList[1]
-            ? this.state.authorsList[1]
-            : "",
-      },
-    });
+    } catch (err) {
+      console.log(err.response.data);
+    }
   };
 
   handleSecondButton = () => {
