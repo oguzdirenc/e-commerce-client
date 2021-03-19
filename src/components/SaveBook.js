@@ -40,6 +40,7 @@ class SaveBook extends Component {
       authorBio: "",
       authorThumbnail: "",
     },
+    errors: {},
   };
 
   componentWillReceiveProps(nextProps) {
@@ -114,7 +115,9 @@ class SaveBook extends Component {
         },
       });
     } catch (err) {
-      console.log(err.response.data);
+      this.setState({
+        errors: err.response.data,
+      });
     }
   };
 
@@ -185,8 +188,9 @@ class SaveBook extends Component {
               <Form className="conteiner-3">
                 <div className="input">
                   <label className="label">Kitap Adı :</label>
+
                   <Input
-                    className="input-width"
+                    className={"input-width"}
                     value={this.state.book.bookName}
                     onChange={(event) =>
                       this.setState({
@@ -199,7 +203,11 @@ class SaveBook extends Component {
                     placeholder="Kitap adını giriniz..."
                   />
                 </div>
-
+                {this.state.errors.bookName ? (
+                  <h6 className="error">{this.state.errors.bookName}</h6>
+                ) : (
+                  ""
+                )}
                 <div className="input">
                   <label className="label">Fotoğraf Url Adresi :</label>
                   <Input

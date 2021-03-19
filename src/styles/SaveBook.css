@@ -72,3 +72,10 @@
 .modal-height {
   min-height: 630px;
 }
+.error {
+  width: auto;
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+  margin-left: 26% !important;
+  color: red;
+}
