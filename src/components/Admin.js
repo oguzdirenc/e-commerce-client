@@ -32,7 +32,7 @@ class Admin extends Component {
             {
               bookName: googleBook.volumeInfo.title
                 ? googleBook.volumeInfo.title
-                : "",
+                : null,
               bookThumbnail: googleBook.volumeInfo.imageLinks
                 ? googleBook.volumeInfo.imageLinks.smallThumbnail
                   ? googleBook.volumeInfo.imageLinks.smallThumbnail
@@ -41,7 +41,12 @@ class Admin extends Component {
                   : "https://nordicdesign.ca/wp-content/uploads/2020/02/book-thumbnail-300x300.jpg"
                 : "https://nordicdesign.ca/wp-content/uploads/2020/02/book-thumbnail-300x300.jpg",
               authorsList: googleBook.volumeInfo.authors
-                ? googleBook.volumeInfo.authors
+                ? googleBook.volumeInfo.authors[1]
+                  ? [
+                      googleBook.volumeInfo.authors[0],
+                      googleBook.volumeInfo.authors[1],
+                    ]
+                  : [googleBook.volumeInfo.authors[0], ""]
                 : ["", ""],
               publisherName: googleBook.volumeInfo.publisher
                 ? googleBook.volumeInfo.publisher

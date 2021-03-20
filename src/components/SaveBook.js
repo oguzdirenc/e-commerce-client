@@ -57,6 +57,7 @@ class SaveBook extends Component {
   handleModalOnClose = () => {
     this.props.modalAction(false);
     this.setState({
+      errors: {},
       steps: { stepOne: true, stepTwo: false, stepTree: false },
       book: {},
       categoryList: [],
@@ -153,17 +154,38 @@ class SaveBook extends Component {
   };
 
   handleThirdButton = () => {
-    this.props.modalAction(false);
-    this.setState({
-      categoryList: [],
-      steps: {
-        stepOne: true,
-        stepTwo: false,
-        stepTree: false,
-      },
-      openAdminModal: false,
-    });
-    axios.post(updateBookUrl, this.state.book);
+    if (
+      this.state.book.bookPrice <= 0 ||
+      Number.isNaN(Number(this.state.book.bookPrice))
+    ) {
+      this.setState({
+        errors: {
+          bookPrice: "Geçerli bir fiyat giriniz",
+        },
+      });
+    } else if (
+      this.state.book.bookStock <= 0 ||
+      Number.isNaN(Number(this.state.book.bookStock))
+    ) {
+      this.setState({
+        errors: {
+          bookStock: "Geçerli bir stok miktarı giriniz",
+        },
+      });
+    } else {
+      this.props.modalAction(false);
+      this.setState({
+        errors: {},
+        categoryList: [],
+        steps: {
+          stepOne: true,
+          stepTwo: false,
+          stepTree: false,
+        },
+        openAdminModal: false,
+      });
+      axios.post(updateBookUrl, this.state.book);
+    }
   };
 
   renderAdminModal = () => {
@@ -274,6 +296,11 @@ class SaveBook extends Component {
                     placeholder="Sayfa sayısını giriniz..."
                   />
                 </div>
+                {this.state.errors.bookPage ? (
+                  <h6 className="error">{this.state.errors.bookPage}</h6>
+                ) : (
+                  ""
+                )}
                 <div className="input">
                   <label className="label">Kategori :</label>
                   <Input
@@ -511,6 +538,11 @@ class SaveBook extends Component {
                   placeholder={"Fiyatı giriniz..."}
                 />
               </div>
+              {this.state.errors.bookPrice ? (
+                <h6 className="error">{this.state.errors.bookPrice}</h6>
+              ) : (
+                ""
+              )}
               <div className="second-input">
                 <label className="second-label">Stok Miktarı :</label>
                 <Input
@@ -527,6 +559,11 @@ class SaveBook extends Component {
                   placeholder={"Stok miktarını giriniz..."}
                 />
               </div>
+              {this.state.errors.bookStock ? (
+                <h6 className="error">{this.state.errors.bookStock}</h6>
+              ) : (
+                ""
+              )}
               <Button className="button-align" onClick={this.handleThirdButton}>
                 Kaydı Tamamla
               </Button>
