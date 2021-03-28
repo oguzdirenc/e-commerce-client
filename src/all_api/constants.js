@@ -20,3 +20,4 @@ export const shoppingCartBooksUrl = shoppingCartUrl + "/books";
 
 const userUrl = rootUrl + "/api/users";
 export const userRegisterUrl = userUrl + "/register";
+export const userLoginUrl = userUrl + "/login";

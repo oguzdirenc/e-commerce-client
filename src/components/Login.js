@@ -1,3 +1,5 @@
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 import React, { Component } from "react";
 import {
   Button,
@@ -8,8 +10,22 @@ import {
   Message,
   Segment,
 } from "semantic-ui-react";
+import { userLoginUrl } from "../all_api/constants";
+import setJWTToken from "../securityUtils/setJWTToken";
 
 class Login extends Component {
+  onSubmit = async () => {
+    try {
+      const res = await axios.post(userLoginUrl, LoginRequest);
+      const { token } = res.data;
+      localStorage.setItem("jwtToken", token);
+      setJWTToken(token);
+      const decodedToken = jwtDecode(token);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
   render() {
     return (
       <div>
