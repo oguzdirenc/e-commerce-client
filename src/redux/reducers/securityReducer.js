@@ -1,20 +1,26 @@
-const initialState ={
-    user:{},
-    validToken=false
-}
+const initialState = {
+  user: {},
+  validToken: false,
+};
 
-const securityReducer =(state=initialState,action){
+const booleanActionPayload = (payload) => {
+  if (payload) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
-    switch(action.type){
-        case "SET_USER":
-            return{
-                ...state,
-                validToken:true,
-                user:action.payload
-            }
-        
-            default:
-                return state
-    }
+const securityReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "SET_USER":
+      return {
+        ...state,
+        validToken: booleanActionPayload(action.payload),
+        user: action.payload,
+      };
 
-}
+    default:
+      return state;
+  }
+};
