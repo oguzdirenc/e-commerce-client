@@ -24,3 +24,5 @@ const securityReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default securityReducer;

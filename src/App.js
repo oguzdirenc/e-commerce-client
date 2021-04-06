@@ -9,7 +9,27 @@ import SaveBook from "./components/SaveBook";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import ShoppingCart from "./components/ShoppingCart";
+import jwt_decode from "jwt-decode";
+import setJWTToken from "./securityUtils/setJWTToken";
+import { login } from "./redux/actions/securityActions";
+import { connect } from "react-redux";
 
+const jwtToken = localStorage.jwtToken;
+
+if (jwtToken) {
+  setJWTToken(jwtToken);
+  const decodedToken = jwt_decode(jwtToken);
+  store.dispatch({
+    type: "SET_USER",
+    payload: decodedToken,
+  });
+
+  const currentTime = Date.now() / 1000;
+
+  if (decodedToken.exp < currentTime) {
+    // window.location.href = "/login"
+  }
+}
 function App() {
   return (
     <Provider store={store}>

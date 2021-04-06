@@ -10,7 +10,6 @@ import {
   Form,
   Input,
   TextArea,
-  Grid,
 } from "semantic-ui-react";
 import BookSaveStep from "./BookSaveStep";
 import { modalAction } from "../redux/actions/modalAction";

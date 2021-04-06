@@ -1,6 +1,7 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   Button,
   Form,
@@ -12,17 +13,31 @@ import {
 } from "semantic-ui-react";
 import { userLoginUrl } from "../all_api/constants";
 import setJWTToken from "../securityUtils/setJWTToken";
+import { login } from "../redux/actions/securityActions";
 
 class Login extends Component {
+  state = {
+    username: "",
+    password: "",
+    errors: {},
+  };
+
   onSubmit = async () => {
     try {
+      const LoginRequest = {
+        username: this.state.username,
+        password: this.state.password,
+      };
       const res = await axios.post(userLoginUrl, LoginRequest);
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
       setJWTToken(token);
       const decodedToken = jwtDecode(token);
+      this.props.login(decodedToken);
+      this.setState({ errors: {} });
+      this.props.history.push("/allBooks");
     } catch (error) {
-      console.log(error.response.data);
+      this.setState({ errors: error.response.data });
     }
   };
 
@@ -45,6 +60,10 @@ class Login extends Component {
                   icon="user"
                   iconPosition="left"
                   placeholder="E-mail adresi"
+                  value={this.state.username}
+                  onChange={(event) =>
+                    this.setState({ username: event.target.value })
+                  }
                 />
                 <Form.Input
                   fluid
@@ -52,9 +71,13 @@ class Login extends Component {
                   iconPosition="left"
                   placeholder="Şifre"
                   type="password"
+                  value={this.state.password}
+                  onChange={(event) =>
+                    this.setState({ password: event.target.value })
+                  }
                 />
 
-                <Button color="teal" fluid size="large">
+                <Button onClick={this.onSubmit} color="teal" fluid size="large">
                   Giriş
                 </Button>
               </Segment>
@@ -69,4 +92,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default connect(null, { login })(Login);
