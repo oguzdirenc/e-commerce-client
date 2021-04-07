@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 import { Button, Form, Grid, Header, Segment } from "semantic-ui-react";
 import { userRegisterUrl } from "../all_api/constants";
+import { connect } from "react-redux";
 
 class Register extends Component {
   state = {
@@ -13,6 +14,12 @@ class Register extends Component {
     },
     errors: {},
   };
+
+  componentDidMount() {
+    if (this.props.security.validToken) {
+      this.props.history.push("allBooks");
+    }
+  }
 
   handleRegister = () => {
     try {
@@ -124,4 +131,9 @@ class Register extends Component {
     );
   }
 }
-export default Register;
+
+const mapStateToProps = (state) => ({
+  security: state.security,
+});
+
+export default connect(mapStateToProps, null)(Register);

@@ -22,6 +22,12 @@ class Login extends Component {
     errors: {},
   };
 
+  componentDidMount() {
+    if (this.props.security.validToken) {
+      this.props.history.push("allBooks");
+    }
+  }
+
   onSubmit = async () => {
     try {
       const LoginRequest = {
@@ -95,4 +101,8 @@ class Login extends Component {
   }
 }
 
-export default connect(null, { login })(Login);
+const mapStateToProps = (state) => ({
+  security: state.security,
+});
+
+export default connect(mapStateToProps, { login })(Login);

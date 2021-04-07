@@ -2,12 +2,18 @@ import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Input, Menu, Dropdown, Button, Label } from "semantic-ui-react";
 import { connect } from "react-redux";
+import { logout } from "../redux/actions/securityActions";
 import "../styles/Navbar.css";
 
 class Navbar extends Component {
   state = {
     activeItem: "home",
     orderCount: 0,
+  };
+
+  handleLogout = () => {
+    this.props.logout();
+    window.location.href = "/login";
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -54,7 +60,9 @@ class Navbar extends Component {
                 </Dropdown.Item>
                 <Dropdown.Item>Favorilerim</Dropdown.Item>
                 <Dropdown.Item>Siparişlerim</Dropdown.Item>
-                <Dropdown.Item>Çıkış Yap</Dropdown.Item>
+                <Dropdown.Item onClick={this.handleLogout}>
+                  Çıkış Yap
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Item>
@@ -69,4 +77,4 @@ const mapStateToProps = (state) => {
 
   return { orderCount: orderCount };
 };
-export default connect(mapStateToProps, null)(Navbar);
+export default connect(mapStateToProps, { logout })(Navbar);
