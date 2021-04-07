@@ -1,4 +1,5 @@
 import "./App.css";
+import React, { Component } from "react";
 import Admin from "./components/Admin";
 import AllBooks from "./components/AllBooks";
 import Navbar from "./components/Navbar";
@@ -27,27 +28,35 @@ if (jwtToken) {
   const currentTime = Date.now() / 1000;
 
   if (decodedToken.exp < currentTime) {
-    // window.location.href = "/login"
+    store.dispatch({
+      type: "SET_USER",
+      payload: {},
+    });
+    window.location.href = "/login";
   }
 }
-function App() {
-  return (
-    <Provider store={store}>
-      <div className="App">
-        <BrowserRouter>
-          <Navbar />
-          <Switch>
+export class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <div className="App">
+          <BrowserRouter>
             <Route path="/register" component={Register} />
-            <Route path="/login" component={Login} />
-            <Route path="/allBooks" component={AllBooks}></Route>
-            <Route path="/admin" component={Admin}></Route>
-            <Route path="/modal" component={SaveBook}></Route>
-            <Route path="/shoppingCart" component={ShoppingCart}></Route>
-          </Switch>
-        </BrowserRouter>
-      </div>
-    </Provider>
-  );
+            <Route path="/login" exact component={Login} />
+            <div>
+              <Navbar />
+              <Switch>
+                <Route path="/allBooks" component={AllBooks}></Route>
+                <Route path="/admin" component={Admin}></Route>
+                <Route path="/modal" component={SaveBook}></Route>
+                <Route path="/shoppingCart" component={ShoppingCart}></Route>
+              </Switch>
+            </div>
+          </BrowserRouter>
+        </div>
+      </Provider>
+    );
+  }
 }
 
 export default App;
