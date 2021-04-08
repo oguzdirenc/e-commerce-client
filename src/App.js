@@ -12,6 +12,7 @@ import Login from "./components/Login";
 import ShoppingCart from "./components/ShoppingCart";
 import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
+import SecuredRoute from "./securityUtils/SecureRoute";
 import { login } from "./redux/actions/securityActions";
 import { connect } from "react-redux";
 
@@ -46,10 +47,10 @@ export class App extends Component {
             <div>
               <Navbar />
               <Switch>
-                <Route path="/allBooks" component={AllBooks}></Route>
-                <Route path="/admin" component={Admin}></Route>
-                <Route path="/modal" component={SaveBook}></Route>
-                <Route path="/shoppingCart" component={ShoppingCart}></Route>
+                <SecuredRoute path="/allBooks" component={AllBooks} />
+                <SecuredRoute path="/admin" component={Admin} />
+                <SecuredRoute path="/modal" component={SaveBook} />
+                <SecuredRoute path="/shoppingCart" component={ShoppingCart} />
               </Switch>
             </div>
           </BrowserRouter>
