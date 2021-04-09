@@ -14,6 +14,7 @@ import {
 import { userLoginUrl } from "../all_api/constants";
 import setJWTToken from "../securityUtils/setJWTToken";
 import { login } from "../redux/actions/securityActions";
+import store from "../redux/store";
 
 class Login extends Component {
   state = {
@@ -24,7 +25,7 @@ class Login extends Component {
 
   componentDidMount() {
     if (this.props.security.validToken) {
-      this.props.history.push("allBooks");
+      this.props.history.push("/allBooks");
     }
   }
 
@@ -39,7 +40,7 @@ class Login extends Component {
       localStorage.setItem("jwtToken", token);
       setJWTToken(token);
       const decodedToken = jwtDecode(token);
-      this.props.login(decodedToken);
+      store.dispatch(login(decodedToken));
       this.setState({ errors: {} });
       this.props.history.push("/allBooks");
     } catch (error) {

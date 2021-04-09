@@ -24,55 +24,59 @@ class Admin extends Component {
       books: [],
     });
 
-    axios.get(apiUrl + this.state.bookSearch + key).then((response) =>
-      response.data.items.map((googleBook) => {
-        this.setState({
-          books: [
-            ...this.state.books,
-            {
-              bookName: googleBook.volumeInfo.title
-                ? googleBook.volumeInfo.title
-                : null,
-              bookThumbnail: googleBook.volumeInfo.imageLinks
-                ? googleBook.volumeInfo.imageLinks.smallThumbnail
-                  ? googleBook.volumeInfo.imageLinks.smallThumbnail
-                  : googleBook.volumeInfo.imageLinks.thumbnail
-                  ? googleBook.volumeInfo.imageLinks.thumbnail
-                  : "https://nordicdesign.ca/wp-content/uploads/2020/02/book-thumbnail-300x300.jpg"
-                : "https://nordicdesign.ca/wp-content/uploads/2020/02/book-thumbnail-300x300.jpg",
-              authorsList: googleBook.volumeInfo.authors
-                ? googleBook.volumeInfo.authors[1]
-                  ? [
-                      googleBook.volumeInfo.authors[0],
-                      googleBook.volumeInfo.authors[1],
-                    ]
-                  : [googleBook.volumeInfo.authors[0], ""]
-                : ["", ""],
-              publisherName: googleBook.volumeInfo.publisher
-                ? googleBook.volumeInfo.publisher
-                : "",
-              publishedDate: googleBook.volumeInfo.publishedDate
-                ? googleBook.volumeInfo.publishedDate
-                : "",
-              bookDescription: googleBook.volumeInfo.description
-                ? googleBook.volumeInfo.description
-                : "",
-              bookPage: googleBook.volumeInfo.pageCount
-                ? googleBook.volumeInfo.pageCount
-                : null,
-              bookPdfDownloadLink: googleBook.volumeInfo.pdf
-                ? googleBook.volumeInfo.pdf.downloadLink
-                  ? googleBook.volumeInfo.pdf.downloadLink
-                  : null
-                : null,
-              bookBuyLink: googleBook.saleInfo.buyLink
-                ? googleBook.saleInfo.buyLink
-                : null,
-            },
-          ],
-        });
+    axios
+      .get(apiUrl + this.state.bookSearch + key, {
+        headers: { Authorization: "" },
       })
-    );
+      .then((response) =>
+        response.data.items.map((googleBook) => {
+          this.setState({
+            books: [
+              ...this.state.books,
+              {
+                bookName: googleBook.volumeInfo.title
+                  ? googleBook.volumeInfo.title
+                  : null,
+                bookThumbnail: googleBook.volumeInfo.imageLinks
+                  ? googleBook.volumeInfo.imageLinks.smallThumbnail
+                    ? googleBook.volumeInfo.imageLinks.smallThumbnail
+                    : googleBook.volumeInfo.imageLinks.thumbnail
+                    ? googleBook.volumeInfo.imageLinks.thumbnail
+                    : "https://nordicdesign.ca/wp-content/uploads/2020/02/book-thumbnail-300x300.jpg"
+                  : "https://nordicdesign.ca/wp-content/uploads/2020/02/book-thumbnail-300x300.jpg",
+                authorsList: googleBook.volumeInfo.authors
+                  ? googleBook.volumeInfo.authors[1]
+                    ? [
+                        googleBook.volumeInfo.authors[0],
+                        googleBook.volumeInfo.authors[1],
+                      ]
+                    : [googleBook.volumeInfo.authors[0], ""]
+                  : ["", ""],
+                publisherName: googleBook.volumeInfo.publisher
+                  ? googleBook.volumeInfo.publisher
+                  : "",
+                publishedDate: googleBook.volumeInfo.publishedDate
+                  ? googleBook.volumeInfo.publishedDate
+                  : "",
+                bookDescription: googleBook.volumeInfo.description
+                  ? googleBook.volumeInfo.description
+                  : "",
+                bookPage: googleBook.volumeInfo.pageCount
+                  ? googleBook.volumeInfo.pageCount
+                  : null,
+                bookPdfDownloadLink: googleBook.volumeInfo.pdf
+                  ? googleBook.volumeInfo.pdf.downloadLink
+                    ? googleBook.volumeInfo.pdf.downloadLink
+                    : null
+                  : null,
+                bookBuyLink: googleBook.saleInfo.buyLink
+                  ? googleBook.saleInfo.buyLink
+                  : null,
+              },
+            ],
+          });
+        })
+      );
   };
 
   render() {

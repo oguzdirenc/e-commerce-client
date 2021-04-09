@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Container } from "semantic-ui-react";
+import { Button, Card, Container } from "semantic-ui-react";
 import { getAllBooksUrl } from "../all_api/constants";
 import axios from "axios";
 import BookCard from "./BookCard";
@@ -24,10 +24,12 @@ export class AllBooks extends Component {
     );
     this.setState({ books: filteredBooks });
   };
+  currentTime = Date.now() / 1000;
 
   render() {
     return (
       <div>
+        <Button onClick={() => console.log(this.currentTime)}>Date</Button>
         <Container>
           <Card.Group className="card-group">
             {this.state.books.map((book) => (

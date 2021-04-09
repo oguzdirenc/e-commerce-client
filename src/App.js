@@ -13,7 +13,7 @@ import ShoppingCart from "./components/ShoppingCart";
 import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
 import SecuredRoute from "./securityUtils/SecureRoute";
-import { login } from "./redux/actions/securityActions";
+import { login, logout } from "./redux/actions/securityActions";
 import { connect } from "react-redux";
 
 const jwtToken = localStorage.jwtToken;
@@ -21,19 +21,22 @@ const jwtToken = localStorage.jwtToken;
 if (jwtToken) {
   setJWTToken(jwtToken);
   const decodedToken = jwt_decode(jwtToken);
-  store.dispatch({
-    type: "SET_USER",
-    payload: decodedToken,
-  });
+  store.dispatch(login(decodedToken));
 
-  const currentTime = Date.now() / 1000;
+  const currentTime = Date.now();
+  const firstTenDigits = Number(currentTime.toString().substr(0, 10));
 
-  if (decodedToken.exp < currentTime) {
+  if (decodedToken.exp < firstTenDigits) {
+    store.dispatch(logout());
+    window.location.href = "/login";
+    /*
+    localStorage.removeItem("jwtToken");
+    setJWTToken(false);
     store.dispatch({
       type: "SET_USER",
       payload: {},
     });
-    window.location.href = "/login";
+    window.location.href = "/login";*/
   }
 }
 export class App extends Component {
