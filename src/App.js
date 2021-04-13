@@ -23,10 +23,11 @@ if (jwtToken) {
   const decodedToken = jwt_decode(jwtToken);
   store.dispatch(login(decodedToken));
 
-  const currentTime = Date.now();
-  const firstTenDigits = Number(currentTime.toString().substr(0, 10));
+  /*const currentTime = Date.now();
+  const firstTenDigits = Number(currentTime.toString().substr(0, 10));*/
+  const currentTime = (new Date().getTime() + 1) / 1000;
 
-  if (decodedToken.exp < firstTenDigits) {
+  if (decodedToken.exp < currentTime) {
     store.dispatch(logout());
     window.location.href = "/login";
     /*
