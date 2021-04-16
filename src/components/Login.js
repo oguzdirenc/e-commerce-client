@@ -37,6 +37,7 @@ class Login extends Component {
       };
       const res = await axios.post(userLoginUrl, LoginRequest);
       const { token } = res.data;
+      console.log(token);
       localStorage.setItem("jwtToken", token);
       setJWTToken(token);
       const decodedToken = jwtDecode(token);

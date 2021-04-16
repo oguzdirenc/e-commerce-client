@@ -23,7 +23,7 @@ export class BookCard extends Component {
 
   handleDeleteBook = async () => {
     try {
-      await axios.delete(`${deleteBookUrl}/${this.props.book.bookId}`);
+      await axios.delete(`${deleteBookUrl}/${this.props.book.bookId}/`);
       this.props.remove(this.props.book.bookId);
     } catch {
       console.log("Remove failed");
@@ -32,11 +32,10 @@ export class BookCard extends Component {
 
   handleAddToShoppingCart = () => {
     axios
-      .get(`${addToShoppingCartUrl}/${this.props.book.bookId}`)
-      .then((response) => {
-        console.log(response.data);
-        response.data && this.props.increaseAction(1);
-      });
+      .post(
+        `${addToShoppingCartUrl}/${this.props.book.bookId}/${this.props.security.user.username}`
+      )
+      .then((response) => {});
   };
 
   render() {
@@ -137,6 +136,15 @@ export class BookCard extends Component {
   }
 }
 
-export default connect(null, { setAction, modalAction, increaseAction })(
-  BookCard
-);
+const mapStateToProps = (state) => {
+  const { security } = state;
+  return {
+    security: security,
+  };
+};
+
+export default connect(mapStateToProps, {
+  setAction,
+  modalAction,
+  increaseAction,
+})(BookCard);

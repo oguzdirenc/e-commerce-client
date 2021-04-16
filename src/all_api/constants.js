@@ -4,7 +4,7 @@ const bookUrl = rootUrl + "/api/book";
 export const getAllBooksUrl = bookUrl + "/all";
 export const saveBookUrl = bookUrl + "/save";
 export const updateBookUrl = bookUrl + "/update";
-export const addToShoppingCartUrl = bookUrl + "/order";
+//export const addToShoppingCartUrl = bookUrl + "/order";
 export const setBookOrderUrl = bookUrl + "/setOrder";
 export const deleteBookOrderUrl = bookUrl + "/delete/order";
 export const deleteBookUrl = bookUrl + "/delete";
@@ -16,7 +16,8 @@ const authorUrl = rootUrl + "/api/author";
 export const putAuthorToBookUrl = authorUrl + "/book";
 
 const shoppingCartUrl = rootUrl + "/api/shoppingCart";
-export const shoppingCartBooksUrl = shoppingCartUrl + "/books";
+export const shoppingCartBooksUrl = shoppingCartUrl + "/username";
+export const addToShoppingCartUrl = shoppingCartUrl + "/addBook";
 
 const userUrl = rootUrl + "/api/users";
 export const userRegisterUrl = userUrl + "/register";

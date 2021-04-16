@@ -4,12 +4,40 @@ import { Input, Menu, Dropdown, Button, Label } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/securityActions";
 import "../styles/Navbar.css";
+import { shoppingCartBooksUrl } from "../all_api/constants";
+import axios from "axios";
 
 class Navbar extends Component {
   state = {
     activeItem: "home",
     orderCount: 0,
+    shoppingCart: [],
   };
+
+  orderBooks = [];
+  componentDidMount() {
+    var i;
+    var j;
+    axios
+      .get(`${shoppingCartBooksUrl}/${this.props.security.user.username}`)
+      .then((response) => {
+        this.setState({
+          shoppingCart: response.data,
+        });
+      })
+      .then(() => {
+        this.orderBooks = this.state.shoppingCart;
+      })
+      .then(() => {
+        for (i = 0; i < this.orderBooks.length; i++) {
+          for (j = i + 1; j < this.orderBooks.length; j++) {
+            if (this.orderBooks[i].bookId === this.orderBooks[j].bookId) {
+              this.orderBooks.splice(j, 1);
+            }
+          }
+        }
+      });
+  }
 
   handleLogout = () => {
     this.props.logout();
@@ -59,7 +87,9 @@ class Navbar extends Component {
                   Admin
                 </Dropdown.Item>
                 <Dropdown.Item>Favorilerim</Dropdown.Item>
-                <Dropdown.Item>Siparişlerim</Dropdown.Item>
+                <Dropdown.Item onClick={() => console.log(this.orderBooks)}>
+                  Siparişlerim
+                </Dropdown.Item>
                 <Dropdown.Item onClick={this.handleLogout}>
                   Çıkış Yap
                 </Dropdown.Item>
@@ -73,8 +103,8 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { orderCount } = state;
+  const { orderCount, security } = state;
 
-  return { orderCount: orderCount };
+  return { orderCount: orderCount, security: security };
 };
 export default connect(mapStateToProps, { logout })(Navbar);

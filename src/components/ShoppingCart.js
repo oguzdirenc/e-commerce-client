@@ -1,28 +1,35 @@
 import axios from "axios";
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Button, Grid, Item } from "semantic-ui-react";
 import { shoppingCartBooksUrl } from "../all_api/constants";
 import ShoppingCartCard from "./ShoppingCartCard";
 
-export default class ShoppingCart extends Component {
+export class ShoppingCart extends Component {
   state = {
-    books: [],
+    shoppingCart: [],
   };
 
   componentDidMount() {
-    axios.get(shoppingCartBooksUrl).then((response) => {
-      console.log(response.data);
-      this.setState({
-        books: response.data,
+    axios
+      .get(`${shoppingCartBooksUrl}/${this.props.security.user.username}`)
+      .then((response) => {
+        this.setState({
+          shoppingCart: response.data,
+        });
       });
-    });
   }
 
   handleRemove = (bookId) => {
-    let filteredBooks = this.state.books.filter(
+    let filteredBooks = this.state.shoppingCart.filter(
       (book) => book.bookId !== bookId
     );
-    this.setState({ books: filteredBooks });
+    this.setState({
+      shoppingCart: {
+        ...this.state.shoppingCart,
+        shoppingCartBooks: filteredBooks,
+      },
+    });
   };
 
   render() {
@@ -32,11 +39,16 @@ export default class ShoppingCart extends Component {
           <Grid.Row>
             <Grid.Column width={4}></Grid.Column>
             <Grid.Column width={8}>
-              {this.state.books.map((book) => (
-                <Grid.Row>
-                  <ShoppingCartCard book={book} remove={this.handleRemove} />
-                </Grid.Row>
-              ))}
+              {this.state.shoppingCart
+                ? this.state.shoppingCart.map((book) => (
+                    <Grid.Row>
+                      <ShoppingCartCard
+                        book={book}
+                        remove={this.handleRemove}
+                      />
+                    </Grid.Row>
+                  ))
+                : ""}
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -44,3 +56,12 @@ export default class ShoppingCart extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  const { security } = state;
+  return {
+    security: security,
+  };
+};
+
+export default connect(mapStateToProps, null)(ShoppingCart);
