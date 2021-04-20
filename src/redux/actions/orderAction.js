@@ -1,6 +1,6 @@
-export const increaseAction = (data) => {
+export const setOrderBooks = (data) => {
   return {
-    type: "INCREASE_ORDER",
+    type: "SET_ORDER_BOOOKS",
     payload: data,
   };
 };

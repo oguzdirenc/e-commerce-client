@@ -1,10 +1,7 @@
-const initialState = 0;
-let orderCount = 0;
-const orderReducer = (state = initialState, action) => {
+const orderReducer = (state = [], action) => {
   switch (action.type) {
-    case "INCREASE_ORDER":
-      orderCount += action.payload;
-      return orderCount;
+    case "SET_ORDER_BOOOKS":
+      return action.payload;
 
     default:
       return state;

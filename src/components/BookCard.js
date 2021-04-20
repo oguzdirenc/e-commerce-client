@@ -11,7 +11,6 @@ import {
 } from "semantic-ui-react";
 import { setAction } from "../redux/actions/setAction";
 import { modalAction } from "../redux/actions/modalAction";
-import { increaseAction } from "../redux/actions/orderAction";
 import "../styles/BookCard.css";
 import axios from "axios";
 import { addToShoppingCartUrl, deleteBookUrl } from "../all_api/constants";
@@ -146,5 +145,4 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   setAction,
   modalAction,
-  increaseAction,
 })(BookCard);

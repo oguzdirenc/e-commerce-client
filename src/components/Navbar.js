@@ -10,11 +10,17 @@ import axios from "axios";
 class Navbar extends Component {
   state = {
     activeItem: "home",
-    orderCount: 0,
+    orderCount: 1,
     shoppingCart: [],
+    orderBookCounts: {
+      bookId: "",
+      count: 1,
+    },
+    allOrderBookCounts: [],
   };
 
   orderBooks = [];
+
   componentDidMount() {
     var i;
     var j;
@@ -23,6 +29,11 @@ class Navbar extends Component {
       .then((response) => {
         this.setState({
           shoppingCart: response.data,
+          allOrderBookCounts: [],
+          orderBookCounts: {
+            bookId: "",
+            count: 1,
+          },
         });
       })
       .then(() => {
@@ -30,11 +41,31 @@ class Navbar extends Component {
       })
       .then(() => {
         for (i = 0; i < this.orderBooks.length; i++) {
+          this.setState({
+            orderCount: 1,
+          });
           for (j = i + 1; j < this.orderBooks.length; j++) {
             if (this.orderBooks[i].bookId === this.orderBooks[j].bookId) {
               this.orderBooks.splice(j, 1);
+              this.setState({
+                orderCount: this.state.orderCount + 1,
+              });
             }
           }
+          this.setState(
+            {
+              orderBookCounts: {
+                bookId: this.orderBooks[i].bookId,
+                count: this.state.orderCount,
+              },
+            },
+            this.setState({
+              allOrderBookCounts: [
+                ...this.state.allOrderBookCounts,
+                this.state.orderBookCounts,
+              ],
+            })
+          );
         }
       });
   }
@@ -75,7 +106,7 @@ class Navbar extends Component {
           >
             Sepetim
             <Label className="label" color="red" floating fluid>
-              {this.props.orderCount}
+              {this.orderBooks.length}
             </Label>
           </Menu.Item>
 
@@ -103,8 +134,8 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { orderCount, security } = state;
+  const { security } = state;
 
-  return { orderCount: orderCount, security: security };
+  return { security: security };
 };
 export default connect(mapStateToProps, { logout })(Navbar);
