@@ -3,9 +3,12 @@ import { Link, NavLink } from "react-router-dom";
 import { Input, Menu, Dropdown, Button, Label } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/securityActions";
-import "../styles/Navbar.css";
+import { setOrderBooks } from "../redux/actions/orderAction";
+import { setOrderCounts } from "../redux/actions/orderCountAction";
 import { shoppingCartBooksUrl } from "../all_api/constants";
+import "../styles/Navbar.css";
 import axios from "axios";
+import store from "../redux/store";
 
 class Navbar extends Component {
   state = {
@@ -13,7 +16,7 @@ class Navbar extends Component {
     orderCount: 1,
     shoppingCart: [],
     orderBookCounts: {
-      bookId: "",
+      book: {},
       count: 1,
     },
     allOrderBookCounts: [],
@@ -21,26 +24,23 @@ class Navbar extends Component {
 
   orderBooks = [];
 
-  componentDidMount() {
+  handleOrderClick = () => {
     var i;
     var j;
     axios
       .get(`${shoppingCartBooksUrl}/${this.props.security.user.username}`)
       .then((response) => {
+        console.log(response);
         this.setState({
           shoppingCart: response.data,
           allOrderBookCounts: [],
-          orderBookCounts: {
-            bookId: "",
-            count: 1,
-          },
         });
       })
       .then(() => {
         this.orderBooks = this.state.shoppingCart;
       })
       .then(() => {
-        for (i = 0; i < this.orderBooks.length; i++) {
+        for (i = 0; i < this.orderBooks.length - 1; i++) {
           this.setState({
             orderCount: 1,
           });
@@ -55,7 +55,7 @@ class Navbar extends Component {
           this.setState(
             {
               orderBookCounts: {
-                bookId: this.orderBooks[i].bookId,
+                book: this.orderBooks[i],
                 count: this.state.orderCount,
               },
             },
@@ -68,11 +68,14 @@ class Navbar extends Component {
           );
         }
       });
-  }
+
+    store.dispatch(setOrderBooks(this.orderBooks));
+    this.props.setOrderCounts(this.state.allOrderBookCounts);
+  };
 
   handleLogout = () => {
     this.props.logout();
-    window.location.href = "/login";
+    window.location.href = "/";
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -102,11 +105,11 @@ class Navbar extends Component {
             name="sepetim"
             className="order"
             active={activeItem === "Cart"}
-            onClick={this.handleItemClick}
+            onClick={this.handleOrderClick}
           >
             Sepetim
             <Label className="label" color="red" floating fluid>
-              {this.orderBooks.length}
+              1
             </Label>
           </Menu.Item>
 
@@ -138,4 +141,8 @@ const mapStateToProps = (state) => {
 
   return { security: security };
 };
-export default connect(mapStateToProps, { logout })(Navbar);
+export default connect(mapStateToProps, {
+  logout,
+  setOrderBooks,
+  setOrderCounts,
+})(Navbar);

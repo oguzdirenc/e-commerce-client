@@ -47,7 +47,8 @@ export class App extends Component {
         <div className="App">
           <BrowserRouter>
             <Route path="/register" component={Register} />
-            <Route path="/login" exact component={Login} />
+            <Route path="/" exact component={Login} />
+
             <div>
               <Navbar />
               <Switch>

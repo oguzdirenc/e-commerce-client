@@ -14,6 +14,7 @@ export class ShoppingCart extends Component {
     axios
       .get(`${shoppingCartBooksUrl}/${this.props.security.user.username}`)
       .then((response) => {
+        console.log(response);
         this.setState({
           shoppingCart: response.data,
         });
