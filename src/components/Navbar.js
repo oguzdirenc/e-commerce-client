@@ -1,76 +1,17 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Input, Menu, Dropdown, Button, Label } from "semantic-ui-react";
+import { Input, Menu, Dropdown, Button, Label, Icon } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/securityActions";
-import { setOrderBooks } from "../redux/actions/orderAction";
-import { setOrderCounts } from "../redux/actions/orderCountAction";
+import { orderAction } from "../redux/actions/orderAction";
 import { shoppingCartBooksUrl } from "../all_api/constants";
 import "../styles/Navbar.css";
 import axios from "axios";
-import store from "../redux/store";
 
 class Navbar extends Component {
   state = {
     activeItem: "home",
-    orderCount: 1,
-    shoppingCart: [],
-    orderBookCounts: {
-      book: {},
-      count: 1,
-    },
-    allOrderBookCounts: [],
-  };
-
-  orderBooks = [];
-
-  handleOrderClick = () => {
-    var i;
-    var j;
-    axios
-      .get(`${shoppingCartBooksUrl}/${this.props.security.user.username}`)
-      .then((response) => {
-        console.log(response);
-        this.setState({
-          shoppingCart: response.data,
-          allOrderBookCounts: [],
-        });
-      })
-      .then(() => {
-        this.orderBooks = this.state.shoppingCart;
-      })
-      .then(() => {
-        for (i = 0; i < this.orderBooks.length - 1; i++) {
-          this.setState({
-            orderCount: 1,
-          });
-          for (j = i + 1; j < this.orderBooks.length; j++) {
-            if (this.orderBooks[i].bookId === this.orderBooks[j].bookId) {
-              this.orderBooks.splice(j, 1);
-              this.setState({
-                orderCount: this.state.orderCount + 1,
-              });
-            }
-          }
-          this.setState(
-            {
-              orderBookCounts: {
-                book: this.orderBooks[i],
-                count: this.state.orderCount,
-              },
-            },
-            this.setState({
-              allOrderBookCounts: [
-                ...this.state.allOrderBookCounts,
-                this.state.orderBookCounts,
-              ],
-            })
-          );
-        }
-      });
-
-    store.dispatch(setOrderBooks(this.orderBooks));
-    this.props.setOrderCounts(this.state.allOrderBookCounts);
+    books: [],
   };
 
   handleLogout = () => {
@@ -107,14 +48,14 @@ class Navbar extends Component {
             active={activeItem === "Cart"}
             onClick={this.handleOrderClick}
           >
-            Sepetim
-            <Label className="label" color="red" floating fluid>
-              1
+            <Icon size="large" name="shopping cart"></Icon>
+            <Label className="label" color="orange" floating fluid>
+              {this.state.books.length}
             </Label>
           </Menu.Item>
 
           <Menu.Item>
-            <Dropdown icon="user">
+            <Dropdown icon={{ size: "large", name: "user" }}>
               <Dropdown.Menu>
                 <Dropdown.Item>Profilim</Dropdown.Item>
                 <Dropdown.Item as={Link} to="/admin">
@@ -137,12 +78,11 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { security } = state;
+  const { security, order } = state;
 
-  return { security: security };
+  return { security: security, order: order };
 };
 export default connect(mapStateToProps, {
   logout,
-  setOrderBooks,
-  setOrderCounts,
+  orderAction,
 })(Navbar);

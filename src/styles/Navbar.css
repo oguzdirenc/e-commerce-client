@@ -22,9 +22,10 @@
 }
 .order {
   font-weight: bold !important;
-  justify-content: space-around;
+  justify-content: space-around !important;
 }
 .label {
   display: flex;
   width: auto;
+  justify-self: center !important;
 }

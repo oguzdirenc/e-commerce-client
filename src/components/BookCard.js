@@ -11,16 +11,16 @@ import {
 } from "semantic-ui-react";
 import { setAction } from "../redux/actions/setAction";
 import { modalAction } from "../redux/actions/modalAction";
+import { orderAction } from "../redux/actions/orderAction";
 import { shoppingCartBooksUrl } from "../all_api/constants";
 import "../styles/BookCard.css";
 import axios from "axios";
 import { addToShoppingCartUrl, deleteBookUrl } from "../all_api/constants";
-import { setOrderBooks } from "../redux/actions/orderAction";
-import { setOrderCounts } from "../redux/actions/orderCountAction";
 
 export class BookCard extends Component {
   state = {
     openModal: "false",
+    books: [],
   };
 
   handleDeleteBook = async () => {
@@ -32,12 +32,18 @@ export class BookCard extends Component {
     }
   };
 
-  handleAddToShoppingCart = () => {
-    axios
-      .post(
-        `${addToShoppingCartUrl}/${this.props.book.bookId}/${this.props.security.user.username}`
-      )
-      .then((response) => {});
+  handleAddToShoppingCart = async () => {
+    try {
+      await axios
+        .post(`${addToShoppingCartUrl}/${this.props.book.bookId}`)
+        .then(
+          axios
+            .get(shoppingCartBooksUrl)
+            .then((response) => this.props.orderAction(response.data))
+        );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
@@ -148,6 +154,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   setAction,
   modalAction,
-  setOrderBooks,
-  setOrderCounts,
+  orderAction,
 })(BookCard);

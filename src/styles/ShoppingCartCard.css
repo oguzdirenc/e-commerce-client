@@ -1,9 +1,7 @@
 .shopping-card {
   margin-top: 3% !important;
   padding: 3% !important;
-  border-style: solid !important;
-  border-radius: 9px !important;
-  border: black;
+  background-color: #f6f6f6 !important;
   display: flex;
   align-items: center;
 }
@@ -35,4 +33,21 @@
 }
 .card-delete {
   width: 10% !important;
+}
+.orderNow {
+  width: 100% !important;
+  height: fit-content !important;
+  margin-top: 3% !important;
+}
+.cardHeader {
+  margin-top: 2% !important;
+}
+.headerText {
+  margin-left: 65% !important;
+}
+.gridClass {
+  width: 100% !important;
+}
+.orderButton {
+  margin-top: 4% !important;
 }

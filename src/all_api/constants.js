@@ -16,8 +16,10 @@ const authorUrl = rootUrl + "/api/author";
 export const putAuthorToBookUrl = authorUrl + "/book";
 
 const shoppingCartUrl = rootUrl + "/api/shoppingCart";
-export const shoppingCartBooksUrl = shoppingCartUrl + "/username";
+export const shoppingCartBooksUrl = shoppingCartUrl + "/books";
 export const addToShoppingCartUrl = shoppingCartUrl + "/addBook";
+export const decreaseBookOrderUrl = shoppingCartUrl + "/removeBook";
+export const totalPriceUrl = shoppingCartUrl + "/totalPrice";
 
 const userUrl = rootUrl + "/api/users";
 export const userRegisterUrl = userUrl + "/register";

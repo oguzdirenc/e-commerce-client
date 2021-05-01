@@ -2,17 +2,62 @@ import axios from "axios";
 import React, { Component } from "react";
 import { Button, Item, Label, Icon, Grid } from "semantic-ui-react";
 import "../styles/ShoppingCartCard.css";
-import { setBookOrderUrl, deleteBookOrderUrl } from "../all_api/constants";
+import { orderAction } from "../redux/actions/orderAction";
+import {
+  addToShoppingCartUrl,
+  deleteBookOrderUrl,
+  shoppingCartBooksUrl,
+  decreaseBookOrderUrl,
+} from "../all_api/constants";
+import { connect } from "react-redux";
 
 class ShoppingCartCard extends Component {
-  handleOrderButton = (order) => {
-    this.setState({ order: this.state.order + order }, () =>
-      axios
-        .post(
-          `${setBookOrderUrl}/${this.props.book.bookId}/${this.state.order}`
-        )
-        .then((response) => console.log(response.data))
-    );
+  state = {
+    count: 1,
+  };
+
+  componentDidMount() {
+    this.setState({
+      count: this.props.book.count,
+    });
+  }
+
+  async handleRemoveFromCard(order) {
+    try {
+      if (order > 1) {
+        await axios
+          .get(`${decreaseBookOrderUrl}/${this.props.book.book.bookId}`)
+          .then(
+            axios
+              .get(shoppingCartBooksUrl)
+              .then((response) => this.props.orderAction(response.data))
+          );
+        this.setState({
+          count: this.state.count - 1,
+        });
+        this.props.update();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  handleAddToShoppingCart = async () => {
+    try {
+      await axios
+        .post(`${addToShoppingCartUrl}/${this.props.book.book.bookId}`)
+        .then(
+          axios
+            .get(shoppingCartBooksUrl)
+            .then((response) => this.props.orderAction(response.data))
+        );
+      this.setState({
+        count: this.state.count + 1,
+      });
+      this.props.update();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   handleRemoveOrder = async () => {
@@ -28,7 +73,8 @@ class ShoppingCartCard extends Component {
     order: this.props.book.orderSize,
   };
   render() {
-    const { book } = this.props;
+    const { book } = this.props.book;
+    const count = this.props.book.count;
 
     return (
       <Item.Group>
@@ -57,15 +103,17 @@ class ShoppingCartCard extends Component {
             <Button.Group>
               <Button
                 className="card-button"
+                color="orange"
                 icon="minus"
-                onClick={() => this.handleOrderButton(-1)}
+                onClick={() => this.handleRemoveFromCard(count)}
               ></Button>
-              <h3 className="card-label">{this.state.order}</h3>
+              <h3 className="card-label">{this.state.count}</h3>
               <div className="card-button-group">
                 <Button
                   className="card-button"
+                  color="orange"
                   icon="plus"
-                  onClick={() => this.handleOrderButton(1)}
+                  onClick={this.handleAddToShoppingCart}
                 />
               </div>
             </Button.Group>
@@ -84,4 +132,4 @@ class ShoppingCartCard extends Component {
   }
 }
 
-export default ShoppingCartCard;
+export default connect(null, { orderAction })(ShoppingCartCard);

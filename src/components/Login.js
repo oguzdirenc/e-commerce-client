@@ -84,9 +84,6 @@ class Login extends Component {
                     this.setState({ password: event.target.value })
                   }
                 />
-                <Button onClick={() => console.log(this.props)}>
-                  location
-                </Button>
 
                 <Button onClick={this.onSubmit} color="teal" fluid size="large">
                   Giriş
