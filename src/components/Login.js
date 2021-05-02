@@ -15,6 +15,7 @@ import { userLoginUrl } from "../all_api/constants";
 import setJWTToken from "../securityUtils/setJWTToken";
 import { login } from "../redux/actions/securityActions";
 import store from "../redux/store";
+import "../styles/Login.css";
 
 class Login extends Component {
   state = {
@@ -54,14 +55,15 @@ class Login extends Component {
       <div>
         <Grid
           textAlign="center"
+          className="main-color"
           style={{ height: "100vh" }}
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h2" color="teal" textAlign="center">
+            <Header as="h2" color="orange" textAlign="center">
               {/*<Image src="/logo.png" />*/} Giriş Yap
             </Header>
-            <Form size="large">
+            <Form size="large" className="card-color">
               <Segment stacked>
                 <Form.Input
                   fluid
@@ -85,14 +87,22 @@ class Login extends Component {
                   }
                 />
 
-                <Button onClick={this.onSubmit} color="teal" fluid size="large">
+                <Button
+                  onClick={this.onSubmit}
+                  color="orange"
+                  fluid
+                  size="large"
+                >
                   Giriş
                 </Button>
               </Segment>
             </Form>
             <Message>
               Üye değil misin?{" "}
-              <Button onClick={() => history.push("/register")}>
+              <Button
+                color="orange"
+                onClick={() => this.props.history.push("/register")}
+              >
                 Kayıt Ol
               </Button>
             </Message>

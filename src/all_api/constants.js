@@ -4,7 +4,6 @@ const bookUrl = rootUrl + "/api/book";
 export const getAllBooksUrl = bookUrl + "/all";
 export const saveBookUrl = bookUrl + "/save";
 export const updateBookUrl = bookUrl + "/update";
-//export const addToShoppingCartUrl = bookUrl + "/order";
 export const setBookOrderUrl = bookUrl + "/setOrder";
 export const deleteBookOrderUrl = bookUrl + "/delete/order";
 export const deleteBookUrl = bookUrl + "/delete";

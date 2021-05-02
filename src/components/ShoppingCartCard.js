@@ -10,6 +10,7 @@ import {
   decreaseBookOrderUrl,
 } from "../all_api/constants";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 class ShoppingCartCard extends Component {
   state = {
@@ -91,27 +92,28 @@ class ShoppingCartCard extends Component {
           </Item.Content>
 
           <Item.Content className="card-button">
-            <Button.Group>
-              <Button
-                className="card-button"
-                color="orange"
-                icon="minus"
-                onClick={() => this.handleRemoveFromCard(count)}
-              ></Button>
-              <h3 className="card-label">{this.state.count}</h3>
-              <div className="card-button-group">
+            <Item.Header>38.8 TL</Item.Header>
+            <Item.Extra>
+              <Button.Group>
                 <Button
                   className="card-button"
                   color="orange"
-                  icon="plus"
-                  onClick={this.handleAddToShoppingCart}
-                />
-              </div>
-            </Button.Group>
-          </Item.Content>
+                  icon="minus"
+                  onClick={() => this.handleRemoveFromCard(count)}
+                ></Button>
+                <h3 className="card-label">{this.state.count}</h3>
+                <div className="card-button-group">
+                  <Button
+                    className="card-button"
+                    color="orange"
+                    icon="plus"
+                    onClick={this.handleAddToShoppingCart}
+                  />
+                </div>
+              </Button.Group>
+            </Item.Extra>
 
-          <Item.Content className="card-delete">
-            <Icon className="delete-icon" name="delete"></Icon>
+            <Link className="delete-icon">sil</Link>
           </Item.Content>
         </Item>
       </Item.Group>

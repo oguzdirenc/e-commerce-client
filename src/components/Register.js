@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Button, Form, Grid, Header, Segment } from "semantic-ui-react";
 import { userRegisterUrl } from "../all_api/constants";
 import { connect } from "react-redux";
+import "../styles/Login.css";
 
 class Register extends Component {
   state = {
@@ -26,7 +27,7 @@ class Register extends Component {
       axios
         .post(userRegisterUrl, this.state.newUser)
         .then((response) => console.log(response.data));
-      this.props.history.push("/login");
+      this.props.history.push("/");
       this.setState({
         errors: {},
       });
@@ -42,12 +43,13 @@ class Register extends Component {
     return (
       <div>
         <Grid
+          className="main-color"
           textAlign="center"
           style={{ height: "100vh" }}
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as="h2" color="teal" textAlign="center">
+            <Header as="h2" color="orange" textAlign="center">
               KAYIT OL
             </Header>
             <Form size="large">
@@ -116,7 +118,7 @@ class Register extends Component {
                 />
 
                 <Button
-                  color="teal"
+                  color="orange"
                   fluid
                   size="large"
                   onClick={this.handleRegister}

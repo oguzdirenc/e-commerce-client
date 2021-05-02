@@ -29,7 +29,7 @@ if (jwtToken) {
 
   if (decodedToken.exp < currentTime) {
     store.dispatch(logout());
-    window.location.href = "/login";
+    window.location.href = "/";
     /*
     localStorage.removeItem("jwtToken");
     setJWTToken(false);
@@ -45,20 +45,21 @@ export class App extends Component {
     return (
       <Provider store={store}>
         <div className="App">
-          <BrowserRouter>
-            <Route path="/register" component={Register} />
-            <Route path="/" exact component={Login} />
-
-            <div>
-              <Navbar />
+          <div>
+            <BrowserRouter>
               <Switch>
-                <SecuredRoute path="/allBooks" component={AllBooks} />
-                <SecuredRoute path="/admin" component={Admin} />
-                <SecuredRoute path="/modal" component={SaveBook} />
-                <SecuredRoute path="/shoppingCart" component={ShoppingCart} />
+                <Route path="/register" component={Register} />
+                <Route path="/" exact component={Login} />
+                <div>
+                  <Navbar />
+                  <SecuredRoute path="/allBooks" component={AllBooks} />
+                  <SecuredRoute path="/admin" component={Admin} />
+                  <SecuredRoute path="/modal" component={SaveBook} />
+                  <SecuredRoute path="/shoppingCart" component={ShoppingCart} />
+                </div>
               </Switch>
-            </div>
-          </BrowserRouter>
+            </BrowserRouter>
+          </div>
         </div>
       </Provider>
     );
