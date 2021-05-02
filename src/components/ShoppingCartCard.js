@@ -91,29 +91,33 @@ class ShoppingCartCard extends Component {
             </Item.Extra>
           </Item.Content>
 
-          <Item.Content className="card-button">
-            <Item.Header>38.8 TL</Item.Header>
-            <Item.Extra>
-              <Button.Group>
-                <Button
-                  className="card-button"
-                  color="orange"
-                  icon="minus"
-                  onClick={() => this.handleRemoveFromCard(count)}
-                ></Button>
-                <h3 className="card-label">{this.state.count}</h3>
-                <div className="card-button-group">
-                  <Button
-                    className="card-button"
-                    color="orange"
-                    icon="plus"
-                    onClick={this.handleAddToShoppingCart}
-                  />
-                </div>
-              </Button.Group>
-            </Item.Extra>
-
-            <Link className="delete-icon">sil</Link>
+          <Item.Content className="card-button flexbox-container">
+            <Grid>
+              <Grid.Column>
+                <Grid.Row>
+                  <h3 className="book-price">{book.bookPrice} TL</h3>
+                </Grid.Row>
+                <Grid.Row>
+                  <Button.Group>
+                    <Button
+                      className="card-button"
+                      color="orange"
+                      icon="minus"
+                      onClick={() => this.handleRemoveFromCard(count)}
+                    ></Button>
+                    <h3 className="card-label">{this.state.count}</h3>
+                    <div className="card-button-group">
+                      <Button
+                        className="card-button"
+                        color="orange"
+                        icon="plus"
+                        onClick={this.handleAddToShoppingCart}
+                      />
+                    </div>
+                  </Button.Group>
+                </Grid.Row>
+              </Grid.Column>
+            </Grid>
           </Item.Content>
         </Item>
       </Item.Group>

@@ -52,3 +52,12 @@
 .orderButton {
   margin-top: 4% !important;
 }
+.flexbox-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.book-price {
+  align-items: center !important;
+  margin-bottom: 8% !important;
+}
