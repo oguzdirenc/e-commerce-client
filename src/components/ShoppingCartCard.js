@@ -60,15 +60,6 @@ class ShoppingCartCard extends Component {
     }
   };
 
-  handleRemoveOrder = async () => {
-    try {
-      await axios.post(`${deleteBookOrderUrl}/${this.props.book.bookId}`);
-      this.props.remove(this.props.book.bookId);
-    } catch {
-      console.log("Remove failed");
-    }
-  };
-
   state = {
     order: this.props.book.orderSize,
   };
@@ -120,11 +111,7 @@ class ShoppingCartCard extends Component {
           </Item.Content>
 
           <Item.Content className="card-delete">
-            <Icon
-              className="delete-icon"
-              onClick={this.handleRemoveOrder}
-              name="delete"
-            ></Icon>
+            <Icon className="delete-icon" name="delete"></Icon>
           </Item.Content>
         </Item>
       </Item.Group>

@@ -23,15 +23,6 @@ export class BookCard extends Component {
     books: [],
   };
 
-  handleDeleteBook = async () => {
-    try {
-      await axios.delete(`${deleteBookUrl}/${this.props.book.bookId}/`);
-      this.props.remove(this.props.book.bookId);
-    } catch {
-      console.log("Remove failed");
-    }
-  };
-
   handleAddToShoppingCart = async () => {
     try {
       await axios
@@ -134,10 +125,14 @@ export class BookCard extends Component {
             </Button>
           )}
           {cardType === "user" && (
-            <Button onClick={this.handleAddToShoppingCart}>Sepete Ekle</Button>
+            <Button color="orange" onClick={this.handleAddToShoppingCart}>
+              Sepete Ekle
+            </Button>
           )}
 
-          <Button onClick={this.handleDeleteBook}>Kitabı Sil</Button>
+          {cardType === "admin" && (
+            <Button onClick={this.handleDeleteBook}>Kitabı Sil</Button>
+          )}
         </Card>
       </div>
     );

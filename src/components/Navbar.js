@@ -62,9 +62,7 @@ class Navbar extends Component {
                   Admin
                 </Dropdown.Item>
                 <Dropdown.Item>Favorilerim</Dropdown.Item>
-                <Dropdown.Item onClick={() => console.log(this.orderBooks)}>
-                  Siparişlerim
-                </Dropdown.Item>
+                <Dropdown.Item>Siparişlerim</Dropdown.Item>
                 <Dropdown.Item onClick={this.handleLogout}>
                   Çıkış Yap
                 </Dropdown.Item>

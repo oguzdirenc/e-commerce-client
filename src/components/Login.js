@@ -59,7 +59,7 @@ class Login extends Component {
         >
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as="h2" color="teal" textAlign="center">
-              <Image src="/logo.png" /> Log-in to your account
+              {/*<Image src="/logo.png" />*/} Giriş Yap
             </Header>
             <Form size="large">
               <Segment stacked>
@@ -91,7 +91,10 @@ class Login extends Component {
               </Segment>
             </Form>
             <Message>
-              New to us? <a href="#">Sign Up</a>
+              Üye değil misin?{" "}
+              <Button onClick={() => history.push("/register")}>
+                Kayıt Ol
+              </Button>
             </Message>
           </Grid.Column>
         </Grid>
