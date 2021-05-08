@@ -19,6 +19,7 @@ export const shoppingCartBooksUrl = shoppingCartUrl + "/books";
 export const addToShoppingCartUrl = shoppingCartUrl + "/addBook";
 export const decreaseBookOrderUrl = shoppingCartUrl + "/removeBook";
 export const totalPriceUrl = shoppingCartUrl + "/totalPrice";
+export const removeBookFromOrderUrl = shoppingCartUrl + "/removeAll";
 
 const userUrl = rootUrl + "/api/users";
 export const userRegisterUrl = userUrl + "/register";

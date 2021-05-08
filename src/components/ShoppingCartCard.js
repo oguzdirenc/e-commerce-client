@@ -8,6 +8,7 @@ import {
   deleteBookOrderUrl,
   shoppingCartBooksUrl,
   decreaseBookOrderUrl,
+  removeBookFromOrderUrl,
 } from "../all_api/constants";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -51,6 +52,18 @@ class ShoppingCartCard extends Component {
         .get(shoppingCartBooksUrl)
         .then((response) => this.props.orderAction(response.data));
 
+      this.props.update();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  handleRemoveBook = async () => {
+    try {
+      await axios.post(
+        `${removeBookFromOrderUrl}/${this.props.book.book.bookId}`
+      );
+      this.props.remove(this.props.book.book.bookId);
       this.props.update();
     } catch (error) {
       console.log(error);
@@ -110,7 +123,12 @@ class ShoppingCartCard extends Component {
                   </Button.Group>
                 </Grid.Row>
                 <Grid.Row>
-                  <Button className="delete-button" color="red" size="mini">
+                  <Button
+                    className="delete-button"
+                    color="red"
+                    size="mini"
+                    onClick={this.handleRemoveBook}
+                  >
                     Çıkar
                   </Button>
                 </Grid.Row>

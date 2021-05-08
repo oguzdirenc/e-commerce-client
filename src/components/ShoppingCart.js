@@ -31,14 +31,11 @@ export class ShoppingCart extends Component {
   };
 
   handleRemove = (bookId) => {
-    let filteredBooks = this.state.shoppingCart.filter(
-      (book) => book.bookId !== bookId
+    let filteredBooks = this.state.orderBooks.filter(
+      (book) => book.book.bookId !== bookId
     );
     this.setState({
-      shoppingCart: {
-        ...this.state.shoppingCart,
-        shoppingCartBooks: filteredBooks,
-      },
+      orderBooks: filteredBooks,
     });
   };
 
