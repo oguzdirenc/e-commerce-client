@@ -25,13 +25,11 @@ export class BookCard extends Component {
 
   handleAddToShoppingCart = async () => {
     try {
+      await axios.post(`${addToShoppingCartUrl}/${this.props.book.bookId}`);
+
       await axios
-        .post(`${addToShoppingCartUrl}/${this.props.book.bookId}`)
-        .then(
-          axios
-            .get(shoppingCartBooksUrl)
-            .then((response) => this.props.orderAction(response.data))
-        );
+        .get(shoppingCartBooksUrl)
+        .then((response) => this.props.orderAction(response.data));
     } catch (error) {
       console.log(error);
     }
@@ -42,7 +40,7 @@ export class BookCard extends Component {
 
     return (
       <div>
-        <Card className="card">
+        <Card className="book-card card">
           <Card.Content fluid="true">
             <Card.Content>
               <Image

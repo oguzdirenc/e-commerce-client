@@ -6,6 +6,7 @@ import BookCard from "./BookCard";
 import { orderAction } from "../redux/actions/orderAction";
 import "../styles/BookCard.css";
 import { connect } from "react-redux";
+import "../styles/AllBook.css";
 
 export class AllBooks extends Component {
   state = {

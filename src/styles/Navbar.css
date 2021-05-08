@@ -1,12 +1,12 @@
 .main {
-  background-color: #f6f6f6 !important;
+  background-color: #29596e !important;
   display: flex;
   align-items: center;
   height: 65px;
 }
 .home {
-  margin-top: 5px !important;
-  margin-left: 8px !important;
+  margin-top: 8% !important;
+  margin-bottom: 8% !important;
 }
 .order-count {
   position: absolute;
@@ -28,4 +28,7 @@
   display: flex;
   width: auto;
   justify-self: center !important;
+}
+.navbar-search {
+  width: 450px !important;
 }

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Button, Grid, Card, Item } from "semantic-ui-react";
 import { shoppingCartBooksUrl, totalPriceUrl } from "../all_api/constants";
 import ShoppingCartCard from "./ShoppingCartCard";
+import "../styles/ShoppingCart.css";
 
 export class ShoppingCart extends Component {
   state = {

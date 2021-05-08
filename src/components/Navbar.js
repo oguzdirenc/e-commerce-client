@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Input, Menu, Dropdown, Button, Label, Icon } from "semantic-ui-react";
+import {
+  Input,
+  Menu,
+  Dropdown,
+  Button,
+  Label,
+  Icon,
+  Grid,
+} from "semantic-ui-react";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/securityActions";
 import { orderAction } from "../redux/actions/orderAction";
@@ -27,15 +35,24 @@ class Navbar extends Component {
     return (
       <Menu fluid className="main" secondary>
         <NavLink to="/allBooks">
-          <Menu.Item
-            className="home"
-            name="Ana Sayfa"
-            active={activeItem === "home"}
-            onClick={this.handleItemClick}
-          />
+          <Menu.Item>
+            <Button
+              inverted
+              className="home"
+              name="Ana Sayfa"
+              active={activeItem === "home"}
+              onClick={this.handleItemClick}
+            >
+              Ana Sayfa
+            </Button>
+          </Menu.Item>
         </NavLink>
         <Menu.Item>
-          <Input icon="search" placeholder="Ara..." />
+          <Input
+            className="navbar-search"
+            icon="search"
+            placeholder="Kitap Ara..."
+          />
         </Menu.Item>
 
         <Menu.Menu position="right">
@@ -48,14 +65,17 @@ class Navbar extends Component {
             active={activeItem === "Cart"}
             onClick={this.handleOrderClick}
           >
-            <Icon size="large" name="shopping cart"></Icon>
-            <Label className="label" color="orange" floating fluid>
-              {this.state.books.length}
-            </Label>
+            <Icon size="large" inverted name="shopping cart"></Icon>
           </Menu.Item>
 
           <Menu.Item>
-            <Dropdown icon={{ size: "large", name: "user" }}>
+            <Dropdown
+              icon={{
+                className: "inverted",
+                size: "large",
+                name: "user",
+              }}
+            >
               <Dropdown.Menu>
                 <Dropdown.Item>Profilim</Dropdown.Item>
                 <Dropdown.Item as={Link} to="/admin">

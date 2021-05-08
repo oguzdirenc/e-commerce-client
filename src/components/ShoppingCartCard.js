@@ -14,56 +14,49 @@ import { Link } from "react-router-dom";
 
 class ShoppingCartCard extends Component {
   state = {
-    count: 1,
+    order: 0,
   };
 
   componentDidMount() {
     this.setState({
-      count: this.props.book.count,
+      order: this.props.book.count,
     });
   }
 
-  async handleRemoveFromCard(order) {
+  handleDecreaseOrderFromCard = async () => {
     try {
-      if (order > 1) {
+      if (this.state.order > 1) {
         await axios
           .get(`${decreaseBookOrderUrl}/${this.props.book.book.bookId}`)
-          .then(
-            axios
-              .get(shoppingCartBooksUrl)
-              .then((response) => this.props.orderAction(response.data))
-          );
-        this.setState({
-          count: this.state.count - 1,
-        });
+          .then(() => this.setState({ order: this.state.order - 1 }));
+
+        await axios
+          .get(shoppingCartBooksUrl)
+          .then((response) => this.props.orderAction(response.data));
+
         this.props.update();
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   handleAddToShoppingCart = async () => {
     try {
       await axios
         .post(`${addToShoppingCartUrl}/${this.props.book.book.bookId}`)
-        .then(
-          axios
-            .get(shoppingCartBooksUrl)
-            .then((response) => this.props.orderAction(response.data))
-        );
-      this.setState({
-        count: this.state.count + 1,
-      });
+        .then(() => this.setState({ order: this.state.order + 1 }));
+
+      await axios
+        .get(shoppingCartBooksUrl)
+        .then((response) => this.props.orderAction(response.data));
+
       this.props.update();
     } catch (error) {
       console.log(error);
     }
   };
 
-  state = {
-    order: this.props.book.orderSize,
-  };
   render() {
     const { book } = this.props.book;
     const count = this.props.book.count;
@@ -103,9 +96,9 @@ class ShoppingCartCard extends Component {
                       className="card-button"
                       color="orange"
                       icon="minus"
-                      onClick={() => this.handleRemoveFromCard(count)}
+                      onClick={this.handleDecreaseOrderFromCard}
                     ></Button>
-                    <h3 className="card-label">{this.state.count}</h3>
+                    <h3 className="card-label">{this.state.order}</h3>
                     <div className="card-button-group">
                       <Button
                         className="card-button"
@@ -115,6 +108,11 @@ class ShoppingCartCard extends Component {
                       />
                     </div>
                   </Button.Group>
+                </Grid.Row>
+                <Grid.Row>
+                  <Button className="delete-button" color="red" size="mini">
+                    Çıkar
+                  </Button>
                 </Grid.Row>
               </Grid.Column>
             </Grid>

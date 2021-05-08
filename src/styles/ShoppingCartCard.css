@@ -2,8 +2,10 @@
   margin-top: 3% !important;
   padding: 3% !important;
   background-color: #f6f6f6 !important;
+  height: 170px !important;
   display: flex;
   align-items: center;
+  box-shadow: 5px 5px 3px 1px rgba(0, 0, 0, 0.18) !important;
 }
 .card-button {
   display: flex !important;
@@ -60,4 +62,7 @@
 .book-price {
   align-items: center !important;
   margin-bottom: 8% !important;
+}
+.delete-button {
+  margin-top: 15% !important;
 }
