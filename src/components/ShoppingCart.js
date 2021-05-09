@@ -105,7 +105,12 @@ export class ShoppingCart extends Component {
                       </Grid.Row>
                     </Grid>
                   </Card.Header>{" "}
-                  <Button className="orderButton" fluid color="orange">
+                  <Button
+                    onClick={() => this.props.history.push("/order")}
+                    className="orderButton"
+                    fluid
+                    color="orange"
+                  >
                     Satın Al
                   </Button>
                 </Card.Content>

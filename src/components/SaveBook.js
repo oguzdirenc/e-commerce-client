@@ -208,7 +208,7 @@ class SaveBook extends Component {
 
               <Form className="conteiner-3">
                 <div className="input">
-                  <label className="label">Kitap Adı :</label>
+                  <label className="label-book">Kitap Adı :</label>
 
                   <Input
                     className={"input-width"}
@@ -230,7 +230,7 @@ class SaveBook extends Component {
                   ""
                 )}
                 <div className="input">
-                  <label className="label">Fotoğraf Url Adresi :</label>
+                  <label className="label-book">Fotoğraf Url Adresi :</label>
                   <Input
                     className="input-width"
                     value={this.state.book.bookThumbnail}
@@ -247,7 +247,7 @@ class SaveBook extends Component {
                 </div>
 
                 <div className="input">
-                  <label className="label">Yayınevi Adı :</label>
+                  <label className="label-book">Yayınevi Adı :</label>
                   <Input
                     className="input-width"
                     value={this.state.book.publisherName}
@@ -263,7 +263,7 @@ class SaveBook extends Component {
                   />
                 </div>
                 <div className="input">
-                  <label className="label">Yayınlanma Tarihi :</label>
+                  <label className="label-book">Yayınlanma Tarihi :</label>
                   <Input
                     className="input-width"
                     value={this.state.book.publishedDate}
@@ -280,7 +280,7 @@ class SaveBook extends Component {
                 </div>
 
                 <div className="input">
-                  <label className="label">Sayfa Sayısı :</label>
+                  <label className="label-book">Sayfa Sayısı :</label>
                   <Input
                     className="input-width"
                     value={this.state.book.bookPage}
@@ -301,7 +301,7 @@ class SaveBook extends Component {
                   ""
                 )}
                 <div className="input">
-                  <label className="label">Kategori :</label>
+                  <label className="label-book">Kategori :</label>
                   <Input
                     className="category-width"
                     value={this.state.bookCategory}
@@ -346,7 +346,7 @@ class SaveBook extends Component {
                 ))}
               </Form>
             </Modal.Content>
-            <label className="label description">Açıklama :</label>
+            <label className="label-book description">Açıklama :</label>
             <TextArea
               className="description"
               rows="10"

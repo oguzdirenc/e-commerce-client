@@ -24,7 +24,7 @@
   font-weight: bold !important;
   justify-content: space-around !important;
 }
-.label {
+.label-navbar {
   display: flex;
   width: auto;
   justify-self: center !important;

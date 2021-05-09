@@ -15,6 +15,7 @@ import setJWTToken from "./securityUtils/setJWTToken";
 import SecuredRoute from "./securityUtils/SecureRoute";
 import { login, logout } from "./redux/actions/securityActions";
 import { connect } from "react-redux";
+import Order from "./components/Order";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -52,6 +53,7 @@ export class App extends Component {
                 <Route path="/" exact component={Login} />
                 <div>
                   <Navbar />
+                  <SecuredRoute path="/order" component={Order} />
                   <SecuredRoute path="/allBooks" component={AllBooks} />
                   <SecuredRoute path="/admin" component={Admin} />
                   <SecuredRoute path="/modal" component={SaveBook} />

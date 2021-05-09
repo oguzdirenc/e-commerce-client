@@ -24,3 +24,6 @@ export const removeBookFromOrderUrl = shoppingCartUrl + "/removeAll";
 const userUrl = rootUrl + "/api/users";
 export const userRegisterUrl = userUrl + "/register";
 export const userLoginUrl = userUrl + "/login";
+
+const orderUrl = rootUrl + "/api/order";
+export const saveOrderUrl = orderUrl + "/save";
