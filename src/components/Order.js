@@ -142,7 +142,7 @@ export class Order extends Component {
               </Grid.Row>
             </Grid>
           </Grid.Column>
-          <Grid.Column width={4}>
+          <Grid.Column width={5}>
             <Card className="orderNow">
               <Card.Content>
                 <Card.Header textAlign="left">Sipariş Özeti</Card.Header>

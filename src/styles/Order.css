@@ -3,5 +3,8 @@
   background-color: #f6f6f6 !important;
 }
 .orderNow {
-  margin-top: 17% !important;
+  margin-top: 14% !important;
+  width: 100% !important;
+  height: fit-content !important;
+  background-color: #f6f6f6 !important;
 }

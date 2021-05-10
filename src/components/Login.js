@@ -11,7 +11,7 @@ import {
   Message,
   Segment,
 } from "semantic-ui-react";
-import { userLoginUrl } from "../all_api/constants";
+import { getAllBooksUrl, userLoginUrl } from "../all_api/constants";
 import setJWTToken from "../securityUtils/setJWTToken";
 import { login } from "../redux/actions/securityActions";
 import store from "../redux/store";
@@ -44,6 +44,9 @@ class Login extends Component {
       const decodedToken = jwtDecode(token);
       store.dispatch(login(decodedToken));
       this.setState({ errors: {} });
+      /*axios
+        .get(getAllBooksUrl)
+        .then((response) => this.props.bookAction(response.data));*/
       this.props.history.push("/allBooks");
     } catch (error) {
       this.setState({ errors: error.response.data });

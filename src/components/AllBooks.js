@@ -56,7 +56,11 @@ export class AllBooks extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  const { security, book } = state;
 
-export default connect(null, {
+  return { book: book };
+};
+export default connect(mapStateToProps, {
   orderAction,
 })(AllBooks);

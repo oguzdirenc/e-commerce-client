@@ -13,8 +13,8 @@ export class ShoppingCart extends Component {
     priceResponse: {},
   };
 
-  componentDidMount() {
-    this.setState({ orderBooks: this.props.order });
+  async componentDidMount() {
+    await this.setState({ orderBooks: this.props.order });
     axios.get(totalPriceUrl).then((response) =>
       this.setState({
         priceResponse: response.data,
@@ -66,7 +66,7 @@ export class ShoppingCart extends Component {
                 : ""}
             </Grid.Column>
             <Grid.Column width={6}>
-              <Card className="orderNow">
+              <Card className="order-price">
                 <Card.Content>
                   <Card.Header textAlign="left">Sipariş Özeti</Card.Header>
                   <Card.Meta textAlign="left">

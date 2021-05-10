@@ -8,11 +8,16 @@ import {
   Label,
   Icon,
   Grid,
+  Form,
 } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/securityActions";
 import { orderAction } from "../redux/actions/orderAction";
-import { shoppingCartBooksUrl } from "../all_api/constants";
+import {
+  getAllBooksUrl,
+  searhBookUrl,
+  shoppingCartBooksUrl,
+} from "../all_api/constants";
 import "../styles/Navbar.css";
 import axios from "axios";
 
@@ -20,6 +25,7 @@ class Navbar extends Component {
   state = {
     activeItem: "home",
     books: [],
+    search: "",
   };
 
   handleLogout = () => {
@@ -28,6 +34,13 @@ class Navbar extends Component {
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
+  handleSearch = () => {
+    console.log("submit");
+    axios
+      .get(`${searhBookUrl}/${this.state.search}`)
+      .then((response) => this.props.bookAction(response.data));
+  };
 
   render() {
     const { activeItem } = this.state;
@@ -41,18 +54,23 @@ class Navbar extends Component {
               className="home"
               name="Ana Sayfa"
               active={activeItem === "home"}
-              onClick={this.handleItemClick}
+              onClick={this.handleHomeClick}
             >
               Ana Sayfa
             </Button>
           </Menu.Item>
         </NavLink>
         <Menu.Item>
-          <Input
-            className="navbar-search"
-            icon="search"
-            placeholder="Kitap Ara..."
-          />
+          <Form onSubmit={this.handleSearch}>
+            <Input
+              className="navbar-search"
+              icon="search"
+              placeholder="Kitap Ara..."
+              onChange={(event) =>
+                this.setState({ search: event.target.value })
+              }
+            />
+          </Form>
         </Menu.Item>
 
         <Menu.Menu position="right">
