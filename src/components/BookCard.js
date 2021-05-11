@@ -8,6 +8,7 @@ import {
   List,
   Popup,
   Rating,
+  Modal,
 } from "semantic-ui-react";
 import { setAction } from "../redux/actions/setAction";
 import { modalAction } from "../redux/actions/modalAction";
@@ -21,15 +22,17 @@ export class BookCard extends Component {
   state = {
     openModal: "false",
     books: [],
+    modal: false,
   };
 
   handleAddToShoppingCart = async () => {
     try {
       await axios.post(`${addToShoppingCartUrl}/${this.props.book.bookId}`);
 
-      await axios
-        .get(shoppingCartBooksUrl)
-        .then((response) => this.props.orderAction(response.data));
+      await axios.get(shoppingCartBooksUrl).then((response) => {
+        this.props.orderAction(response.data);
+        this.setState({ modal: true });
+      });
     } catch (error) {
       console.log(error);
     }
@@ -131,6 +134,13 @@ export class BookCard extends Component {
           {cardType === "admin" && (
             <Button onClick={this.handleDeleteBook}>Kitabı Sil</Button>
           )}
+          <Modal
+            open={this.state.modal}
+            onClose={() => this.setState({ modal: false })}
+            header="Tebrikler!"
+            content="Kitap sepetinize eklendi."
+            actions={[{ key: "Tamam", content: "Tamam", positive: true }]}
+          />
         </Card>
       </div>
     );

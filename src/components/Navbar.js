@@ -13,11 +13,6 @@ import {
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/securityActions";
 import { orderAction } from "../redux/actions/orderAction";
-import {
-  getAllBooksUrl,
-  searhBookUrl,
-  shoppingCartBooksUrl,
-} from "../all_api/constants";
 import "../styles/Navbar.css";
 import axios from "axios";
 
@@ -36,10 +31,7 @@ class Navbar extends Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   handleSearch = () => {
-    console.log("submit");
-    axios
-      .get(`${searhBookUrl}/${this.state.search}`)
-      .then((response) => this.props.bookAction(response.data));
+    window.location = `/search/${this.state.search}`;
   };
 
   render() {

@@ -16,6 +16,7 @@ import SecuredRoute from "./securityUtils/SecureRoute";
 import { login, logout } from "./redux/actions/securityActions";
 import { connect } from "react-redux";
 import Order from "./components/Order";
+import Search from "./components/Search";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -58,6 +59,7 @@ export class App extends Component {
                   <SecuredRoute path="/admin" component={Admin} />
                   <SecuredRoute path="/modal" component={SaveBook} />
                   <SecuredRoute path="/shoppingCart" component={ShoppingCart} />
+                  <SecuredRoute path="/search/:bookName" component={Search} />
                 </div>
               </Switch>
             </BrowserRouter>
