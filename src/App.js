@@ -27,21 +27,21 @@ if (jwtToken) {
   store.dispatch(login(decodedToken));
 
   /*const currentTime = Date.now();
-  const firstTenDigits = Number(currentTime.toString().substr(0, 10));*/
+  const firstTenDigits = Number(currentTime.toString().substr(0, 10));
   const currentTime = (new Date().getTime() + 1) / 1000;
 
   if (decodedToken.exp < currentTime) {
     store.dispatch(logout());
     window.location.href = "/";
-    /*
+    
     localStorage.removeItem("jwtToken");
     setJWTToken(false);
     store.dispatch({
       type: "SET_USER",
       payload: {},
     });
-    window.location.href = "/login";*/
-  }
+    window.location.href = "/login";
+  }*/
 }
 export class App extends Component {
   render() {

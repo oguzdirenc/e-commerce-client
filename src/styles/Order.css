@@ -8,3 +8,6 @@
   height: fit-content !important;
   background-color: #f6f6f6 !important;
 }
+.errorMessage {
+  color: red !important;
+}

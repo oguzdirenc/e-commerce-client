@@ -26,3 +26,7 @@
 .customSegment {
   margin-bottom: 0% !important;
 }
+.modalStyle {
+  height: 100px !important;
+  width: 400px !important;
+}

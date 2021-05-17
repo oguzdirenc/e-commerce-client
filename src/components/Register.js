@@ -4,6 +4,7 @@ import { Button, Form, Grid, Header, Segment } from "semantic-ui-react";
 import { userRegisterUrl } from "../all_api/constants";
 import { connect } from "react-redux";
 import "../styles/Login.css";
+import "../styles/Register.css";
 
 class Register extends Component {
   state = {
@@ -22,14 +23,14 @@ class Register extends Component {
     }
   }
 
-  handleRegister = () => {
+  handleRegister = async () => {
     try {
-      axios
-        .post(userRegisterUrl, this.state.newUser)
-        .then((response) => console.log(response.data));
-      this.props.history.push("/");
-      this.setState({
-        errors: {},
+      await axios.post(userRegisterUrl, this.state.newUser).then((response) => {
+        console.log(response.data);
+        this.props.history.push("/");
+        this.setState({
+          errors: {},
+        });
       });
     } catch (error) {
       this.setState({
@@ -54,6 +55,11 @@ class Register extends Component {
             </Header>
             <Form size="large">
               <Segment stacked>
+                {this.state.errors.username ? (
+                  <h6 className="errorMessage">{this.state.errors.username}</h6>
+                ) : (
+                  ""
+                )}
                 <Form.Input
                   fluid
                   icon="user"
@@ -69,7 +75,13 @@ class Register extends Component {
                     })
                   }
                 />
+                {this.state.errors.fullName ? (
+                  <h6 className="errorMessage">{this.state.errors.fullName}</h6>
+                ) : (
+                  ""
+                )}
                 <Form.Input
+                  className="errorInput"
                   fluid
                   icon="user"
                   iconPosition="left"
@@ -84,6 +96,11 @@ class Register extends Component {
                     })
                   }
                 />
+                {this.state.errors.password ? (
+                  <h6 className="errorMessage">{this.state.errors.password}</h6>
+                ) : (
+                  ""
+                )}
                 <Form.Input
                   fluid
                   icon="lock"
@@ -100,6 +117,13 @@ class Register extends Component {
                     })
                   }
                 />
+                {this.state.errors.confirmPassword ? (
+                  <h6 className="errorMessage">
+                    {this.state.errors.confirmPassword}
+                  </h6>
+                ) : (
+                  ""
+                )}
                 <Form.Input
                   fluid
                   icon="lock"

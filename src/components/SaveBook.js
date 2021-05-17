@@ -521,6 +521,11 @@ class SaveBook extends Component {
                   placeholder={"Url Adresi Giriniz..."}
                 />
               </div>
+              {this.state.errors.bookPrice ? (
+                <h6 className="error">{this.state.errors.bookPrice}</h6>
+              ) : (
+                ""
+              )}
               <div className="second-input">
                 <label className="second-label">Kitap Fiyatı :</label>
                 <Input
@@ -537,8 +542,9 @@ class SaveBook extends Component {
                   placeholder={"Fiyatı giriniz..."}
                 />
               </div>
-              {this.state.errors.bookPrice ? (
-                <h6 className="error">{this.state.errors.bookPrice}</h6>
+
+              {this.state.errors.bookStock ? (
+                <h6 className="error">{this.state.errors.bookStock}</h6>
               ) : (
                 ""
               )}
@@ -558,11 +564,7 @@ class SaveBook extends Component {
                   placeholder={"Stok miktarını giriniz..."}
                 />
               </div>
-              {this.state.errors.bookStock ? (
-                <h6 className="error">{this.state.errors.bookStock}</h6>
-              ) : (
-                ""
-              )}
+
               <Button className="button-align" onClick={this.handleThirdButton}>
                 Kaydı Tamamla
               </Button>

@@ -10,14 +10,18 @@ import {
   Checkbox,
   Header,
   Segment,
+  Modal,
 } from "semantic-ui-react";
 import { saveOrderUrl, totalPriceUrl } from "../all_api/constants";
 import "../styles/Order.css";
 
 export class Order extends Component {
   state = {
+    errors: [],
     priceResponse: {},
     orderBooks: [],
+    modalOpen: false,
+    orderResponse: "",
     orderRequest: {
       name: "",
       phone: "",
@@ -45,8 +49,37 @@ export class Order extends Component {
   handleSaveOrder = () => {
     axios
       .post(saveOrderUrl, this.state.orderRequest)
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
+      .then((response) =>
+        this.setState({
+          modalOpen: true,
+          modalResponse: response.data,
+        })
+      )
+      .catch((error) =>
+        this.setState({ errors: error.response.data, modalOpen: true })
+      );
+  };
+
+  handleModalOnClose = () => {
+    if (this.state.errors[0]) {
+      this.setState({ modalOpen: false, orderResponse: "", errors: [] });
+    } else {
+      this.props.history.push("/allBooks");
+      this.setState({ modalOpen: false, orderResponse: "", errors: [] });
+    }
+  };
+
+  handleChecked = () => {
+    var checkBox = document.getElementById("checkbox");
+
+    if (checkBox.checked == true) {
+      this.setState({
+        orderRequest: {
+          ...this.state.orderRequest,
+          invoiceAddress: this.state.orderRequest.deliveryAddress,
+        },
+      });
+    }
   };
 
   render() {
@@ -68,7 +101,7 @@ export class Order extends Component {
                       <Form.Field>
                         <label>Alıcı Adı</label>
                         <input
-                          value={this.state.name}
+                          value={this.state.orderRequest.name}
                           onChange={(event) =>
                             this.setState({
                               orderRequest: {
@@ -83,7 +116,7 @@ export class Order extends Component {
                       <Form.Field>
                         <label>Telefon Numarası</label>
                         <input
-                          value={this.state.phone}
+                          value={this.state.orderRequest.phone}
                           onChange={(event) =>
                             this.setState({
                               orderRequest: {
@@ -101,7 +134,7 @@ export class Order extends Component {
                       control={TextArea}
                       label="Teslimat Adresi"
                       placeholder="Teslimat Adresi..."
-                      value={this.state.deliveryAddress}
+                      value={this.state.orderRequest.deliveryAddress}
                       onChange={(event) =>
                         this.setState({
                           orderRequest: {
@@ -115,7 +148,7 @@ export class Order extends Component {
                       control={TextArea}
                       label="Fatura Adresi"
                       placeholder="Fatura Adresi..."
-                      value={this.state.invoiceAddress}
+                      value={this.state.orderRequest.invoiceAddress}
                       onChange={(event) =>
                         this.setState({
                           orderRequest: {
@@ -125,10 +158,12 @@ export class Order extends Component {
                         })
                       }
                     />
-                    <Form.Field
-                      control={Checkbox}
+                    <Checkbox
+                      onChange={this.handleChecked}
+                      id="checkbox"
                       label="Teslimat adresi, fatura adresi ile aynı"
-                    />
+                    ></Checkbox>
+
                     <Button
                       onClick={this.handleSaveOrder}
                       className="orderButton"
@@ -186,6 +221,22 @@ export class Order extends Component {
             </Card>
           </Grid.Column>
         </Grid>
+        <Modal
+          className="modalStyle"
+          open={this.state.modalOpen}
+          onClose={this.handleModalOnClose}
+          header={
+            this.state.errors[0] ? "Sipariş oluşturulamadı" : "Tebrikler!"
+          }
+          content={
+            this.state.errors[0]
+              ? this.state.errors.map((error) => (
+                  <h5 className="errorMessage">*{error}</h5>
+                ))
+              : "Siparişiniz oluşturuldu"
+          }
+          actions={[{ key: "Tamam", content: "Tamam", positive: true }]}
+        />
       </div>
     );
   }

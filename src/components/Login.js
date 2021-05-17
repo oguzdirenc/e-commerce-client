@@ -89,6 +89,13 @@ class Login extends Component {
                     this.setState({ password: event.target.value })
                   }
                 />
+                {this.state.errors.password || this.state.errors.username ? (
+                  <Message size="mini" negative>
+                    Kullanıcı adı veya şifre hatalı
+                  </Message>
+                ) : (
+                  ""
+                )}
 
                 <Button
                   onClick={this.onSubmit}

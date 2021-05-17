@@ -153,6 +153,7 @@ export class BookCard extends Component {
           )}
 
           <Modal
+            className="modalStyle"
             open={this.state.modal}
             onClose={() => this.setState({ modal: false })}
             header="Tebrikler!"
