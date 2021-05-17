@@ -1,0 +1,21 @@
+.bookDetail-header {
+  margin-left: 3% !important;
+  margin-top: 0px !important;
+  font-family: cursive;
+}
+.bookDetail-label {
+  font-weight: bold;
+  font-size: 1.3em;
+}
+.input {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2% !important;
+}
+.bookDetail-price {
+  margin-top: 1px !important;
+}
+.bookDescription {
+  font-family: cursive;
+  text-align: left;
+}

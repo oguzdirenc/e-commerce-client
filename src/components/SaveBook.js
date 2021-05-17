@@ -71,7 +71,7 @@ class SaveBook extends Component {
       publishedDate,
       publisherName,
       bookPage,
-      description,
+      bookDescription,
     } = this.state.book;
 
     try {
@@ -82,7 +82,7 @@ class SaveBook extends Component {
           publishedDate: publishedDate,
           publisherName: publisherName,
           bookPage: bookPage,
-          description: description,
+          bookDescription: bookDescription,
         })
         .then((response) => {
           this.setState({
@@ -142,8 +142,8 @@ class SaveBook extends Component {
             this.setState({
               book: {
                 ...response.data,
-                bookPdfDownloadLink: this.state.temporaryBook
-                  .bookPdfDownloadLink,
+                bookPdfDownloadLink:
+                  this.state.temporaryBook.bookPdfDownloadLink,
                 bookBuyLink: this.state.temporaryBook.bookBuyLink,
               },
             })

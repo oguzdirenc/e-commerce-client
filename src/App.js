@@ -14,9 +14,10 @@ import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
 import SecuredRoute from "./securityUtils/SecureRoute";
 import { login, logout } from "./redux/actions/securityActions";
-import { connect } from "react-redux";
 import Order from "./components/Order";
 import Search from "./components/Search";
+import BookDetails from "./components/BookDetails";
+import { BookCard } from "./components/BookCard";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -60,6 +61,7 @@ export class App extends Component {
                   <SecuredRoute path="/modal" component={SaveBook} />
                   <SecuredRoute path="/shoppingCart" component={ShoppingCart} />
                   <SecuredRoute path="/search/:bookName" component={Search} />
+                  <SecuredRoute path="/bookDetails" component={BookDetails} />
                 </div>
               </Switch>
             </BrowserRouter>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Card, Container } from "semantic-ui-react";
+import { Button, Card, Container, Grid } from "semantic-ui-react";
 import { getAllBooksUrl, shoppingCartBooksUrl } from "../all_api/constants";
 import axios from "axios";
 import BookCard from "./BookCard";
@@ -40,24 +40,32 @@ export class AllBooks extends Component {
   render() {
     return (
       <div>
-        <Container>
-          <Card.Group className="card-group">
-            {this.state.books.map((book) => (
-              <BookCard
-                cardType="user"
-                key={book.bookId}
-                book={book}
-                remove={this.handleRemove}
-              />
-            ))}
-          </Card.Group>
-        </Container>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={3}></Grid.Column>
+            <Grid.Column width={10}>
+              <Container>
+                <Card.Group className="card-group">
+                  {this.state.books.map((book) => (
+                    <BookCard
+                      cardType="user"
+                      key={book.bookId}
+                      book={book}
+                      remove={this.handleRemove}
+                    />
+                  ))}
+                </Card.Group>
+              </Container>
+            </Grid.Column>
+            <Grid.Column width={3}></Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
     );
   }
 }
 const mapStateToProps = (state) => {
-  const { security, book } = state;
+  const { book } = state;
 
   return { book: book };
 };

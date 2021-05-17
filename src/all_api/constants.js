@@ -28,3 +28,7 @@ export const userLoginUrl = userUrl + "/login";
 
 const orderUrl = rootUrl + "/api/order";
 export const saveOrderUrl = orderUrl + "/save";
+
+const commentUrl = rootUrl + "/api/comment";
+export const newCommentUrl = commentUrl + "/new";
+export const getBookCommentsUrl = commentUrl + "/book";
