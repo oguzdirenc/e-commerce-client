@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Button, Card, Container, Grid } from "semantic-ui-react";
+import {
+  Button,
+  Card,
+  Container,
+  Grid,
+  Menu,
+  Rating,
+  Segment,
+} from "semantic-ui-react";
 import { getAllBooksUrl, shoppingCartBooksUrl } from "../all_api/constants";
 import axios from "axios";
 import BookCard from "./BookCard";
@@ -11,12 +19,15 @@ import "../styles/AllBook.css";
 export class AllBooks extends Component {
   state = {
     books: [],
+    ratingFilter: 5,
+    booksShown: [],
   };
 
   async componentDidMount() {
     await axios.get(shoppingCartBooksUrl).then((response) =>
       this.setState({
         books: response.data,
+        booksShown: response.data,
       })
     );
 
@@ -28,6 +39,19 @@ export class AllBooks extends Component {
       })
     );
   }
+
+  handleRate = (event, data) => {
+    this.setState({ ratingFilter: data.rating });
+  };
+
+  handleRatingInputChange = (e) => {
+    this.setState({
+      ratingFilter: e.target.value / 10,
+      booksShown: this.state.books.filter(
+        (book) => this.state.ratingFilter >= book.bookRate
+      ),
+    });
+  };
 
   handleRemove = (bookId) => {
     let filteredBooks = this.state.books.filter(
@@ -42,11 +66,30 @@ export class AllBooks extends Component {
       <div>
         <Grid>
           <Grid.Row>
-            <Grid.Column width={3}></Grid.Column>
+            <Grid.Column width={2}>
+              <Segment>
+                <h5>En düşük puan: {this.state.ratingFilter}</h5>
+                <input
+                  type="range"
+                  min={0}
+                  max={50}
+                  value={this.state.ratingFilter * 10}
+                  onChange={this.handleRatingInputChange}
+                />
+                <Rating
+                  style={{ display: "flex", marginTop: "10px" }}
+                  icon="star"
+                  maxRating={5}
+                  rating={this.state.ratingFilter}
+                  onRate={this.handleRate}
+                  clearable
+                />
+              </Segment>
+            </Grid.Column>
             <Grid.Column width={10}>
               <Container>
                 <Card.Group className="card-group">
-                  {this.state.books.map((book) => (
+                  {this.state.booksShown.map((book) => (
                     <BookCard
                       cardType="user"
                       key={book.bookId}
