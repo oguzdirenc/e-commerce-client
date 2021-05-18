@@ -19,7 +19,7 @@ import "../styles/AllBook.css";
 export class AllBooks extends Component {
   state = {
     books: [],
-    ratingFilter: 5,
+    ratingFilter: 0,
     booksShown: [],
   };
 
@@ -27,7 +27,6 @@ export class AllBooks extends Component {
     await axios.get(shoppingCartBooksUrl).then((response) =>
       this.setState({
         books: response.data,
-        booksShown: response.data,
       })
     );
 
@@ -36,6 +35,7 @@ export class AllBooks extends Component {
     axios.get(getAllBooksUrl).then((response) =>
       this.setState({
         books: response.data,
+        booksShown: response.data,
       })
     );
   }
@@ -44,13 +44,20 @@ export class AllBooks extends Component {
     this.setState({ ratingFilter: data.rating });
   };
 
-  handleRatingInputChange = (e) => {
-    this.setState({
+  handleRatingInputChange = async (e) => {
+    await this.setState({
       ratingFilter: e.target.value / 10,
-      booksShown: this.state.books.filter(
-        (book) => this.state.ratingFilter >= book.bookRate
-      ),
     });
+
+    if (this.state.ratingFilter != 0) {
+      this.setState({
+        booksShown: this.state.books.filter(
+          (book) => this.state.ratingFilter < book.bookRate
+        ),
+      });
+    } else {
+      this.setState({ booksShown: this.state.books });
+    }
   };
 
   handleRemove = (bookId) => {
