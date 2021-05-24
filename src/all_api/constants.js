@@ -8,6 +8,7 @@ export const setBookOrderUrl = bookUrl + "/setOrder";
 export const deleteBookOrderUrl = bookUrl + "/delete/order";
 export const deleteBookUrl = bookUrl + "/delete";
 export const searhBookUrl = bookUrl + "/search";
+export const filterBookUrl = bookUrl + "/filtered";
 
 const categoryUrl = rootUrl + "/api/category";
 export const categoryToBookUrl = categoryUrl + "/setCategory";
