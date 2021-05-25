@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   Button,
   Comment,
@@ -12,11 +13,12 @@ import {
 } from "semantic-ui-react";
 import { newCommentUrl, getBookCommentsUrl } from "../all_api/constants";
 
-export default class Comments extends Component {
+class Comments extends Component {
   state = {
     comment: {
       commentDescription: "",
       rate: 0,
+      user: { fullName: this.props.security.user.fullName },
     },
     comments: [],
     ratingModalOpen: false,
@@ -40,9 +42,16 @@ export default class Comments extends Component {
         .catch((error) => {
           console.log(error);
         });
-      await axios
-        .get(`${getBookCommentsUrl}/${this.props.bookId}`)
-        .then((response) => this.setState({ comments: response.data }));
+      await this.setState({
+        comments: [...this.state.comments, this.state.comment],
+      });
+      await this.setState({
+        comment: {
+          commentDescription: "",
+          rate: 0,
+          user: { fullName: this.props.security.user.fullName },
+        },
+      });
     }
   };
 
@@ -121,6 +130,7 @@ export default class Comments extends Component {
           <Form reply>
             <Form.TextArea
               rows={2}
+              value={this.state.comment.commentDescription}
               onChange={(event) =>
                 this.setState({
                   comment: {
@@ -144,3 +154,10 @@ export default class Comments extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  const { security } = state;
+
+  return { security: security };
+};
+export default connect(mapStateToProps, null)(Comments);
