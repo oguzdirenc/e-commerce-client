@@ -82,7 +82,7 @@ export class AllBooks extends Component {
 
   onChangeFollower = (event, data) => {
     this.setState({
-      filter: { ...this.state.filter, categoryFilter: data.value },
+      filter: { ...this.state.filter, category: data.value },
     });
   };
 
