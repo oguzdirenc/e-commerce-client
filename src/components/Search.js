@@ -18,9 +18,9 @@ export default class Search extends Component {
     );
     this.setState({
       books: this.state.books.filter(
-        (book) =>
-          book.bookName.toUpperCase() ==
-          this.props.match.params.bookName.toUpperCase()
+        (book) => book.bookName.includes(this.props.match.params.bookName)
+        /* book.bookName.toUpperCase() ==
+          this.props.match.params.bookName.toUpperCase()*/
       ),
     });
     console.log(this.props.match.params.bookName);

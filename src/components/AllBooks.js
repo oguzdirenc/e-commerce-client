@@ -11,6 +11,7 @@ import {
   Menu,
   Rating,
   Segment,
+  Sticky,
 } from "semantic-ui-react";
 import {
   filterBookUrl,
@@ -129,84 +130,86 @@ export class AllBooks extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}></Grid.Column>
-            <Grid.Column width={10}>
+            <Grid.Column width={14}>
               <Grid>
                 <Grid.Row>
-                  <Grid.Column width={4}>
-                    <Segment>
-                      <h5>En düşük puan: {this.state.ratingFilter}</h5>
-                      <input
-                        type="range"
-                        min={0}
-                        max={50}
-                        value={this.state.ratingFilter * 10}
-                        onChange={this.handleRatingInputChange}
-                      />
-                      <Rating
-                        style={{ display: "flex", marginTop: "10px" }}
-                        icon="star"
-                        maxRating={5}
-                        rating={this.state.ratingFilter}
-                        onRate={this.handleRate}
-                        clearable
-                      />
-                      <h5>Kategoriler</h5>
-                      <Dropdown
-                        placeholder="Kategoriler"
-                        fluid
-                        selection
-                        onChange={this.onChangeFollower}
-                        options={options}
-                      />
-                      <h5>Fiyat Aralığı</h5>
-                      <Input
-                        className="filterInput"
-                        size="small"
-                        placeholder="min"
-                        value={this.state.filter.minPrice}
-                        onChange={(event) => {
-                          this.setState({
-                            filter: {
-                              ...this.state.filter,
-                              minPrice: event.target.value,
-                            },
-                          });
-                        }}
-                      />
-                      <Icon name="try" />
-                      <Input
-                        className="filterInput"
-                        size="small"
-                        placeholder="max"
-                        value={this.state.filter.maxPrice}
-                        onChange={(event) => {
-                          this.setState({
-                            filter: {
-                              ...this.state.filter,
-                              maxPrice: event.target.value,
-                            },
-                          });
-                        }}
-                      />
-                      <Icon name="try" />
-                      <Label
-                        className="filterButton"
-                        as={Button}
-                        color="blue"
-                        onClick={this.handleFilterClick}
-                      >
-                        Filtrele
-                      </Label>
-                      <Label
-                        className="filterButton"
-                        as={Button}
-                        color="red"
-                        secondary
-                        onClick={this.handleRemoveFilter}
-                      >
-                        Filtreyi Kaldır
-                      </Label>
-                    </Segment>
+                  <Grid.Column width={3}>
+                    <Sticky>
+                      <Segment>
+                        <h5>En düşük puan: {this.state.ratingFilter}</h5>
+                        <input
+                          type="range"
+                          min={0}
+                          max={50}
+                          value={this.state.ratingFilter * 10}
+                          onChange={this.handleRatingInputChange}
+                        />
+                        <Rating
+                          style={{ display: "flex", marginTop: "10px" }}
+                          icon="star"
+                          maxRating={5}
+                          rating={this.state.ratingFilter}
+                          onRate={this.handleRate}
+                          clearable
+                        />
+                        <h5>Kategoriler</h5>
+                        <Dropdown
+                          placeholder="Kategoriler"
+                          fluid
+                          selection
+                          onChange={this.onChangeFollower}
+                          options={options}
+                        />
+                        <h5>Fiyat Aralığı</h5>
+                        <Input
+                          className="filterInput"
+                          size="small"
+                          placeholder="min"
+                          value={this.state.filter.minPrice}
+                          onChange={(event) => {
+                            this.setState({
+                              filter: {
+                                ...this.state.filter,
+                                minPrice: event.target.value,
+                              },
+                            });
+                          }}
+                        />
+                        <Icon name="try" />
+                        <Input
+                          className="filterInput"
+                          size="small"
+                          placeholder="max"
+                          value={this.state.filter.maxPrice}
+                          onChange={(event) => {
+                            this.setState({
+                              filter: {
+                                ...this.state.filter,
+                                maxPrice: event.target.value,
+                              },
+                            });
+                          }}
+                        />
+                        <Icon name="try" />
+                        <Label
+                          className="filterButton"
+                          as={Button}
+                          color="blue"
+                          onClick={this.handleFilterClick}
+                        >
+                          Filtrele
+                        </Label>
+                        <Label
+                          className="filterButton"
+                          as={Button}
+                          color="red"
+                          secondary
+                          onClick={this.handleRemoveFilter}
+                        >
+                          Filtreyi Kaldır
+                        </Label>
+                      </Segment>
+                    </Sticky>
                   </Grid.Column>
                   <Grid.Column width={12}>
                     <Container>
@@ -225,7 +228,7 @@ export class AllBooks extends Component {
                 </Grid.Row>
               </Grid>
             </Grid.Column>
-            <Grid.Column width={3}></Grid.Column>
+            <Grid.Column width={1}></Grid.Column>
           </Grid.Row>
         </Grid>
       </div>

@@ -10,6 +10,7 @@ import {
   Form,
   Input,
   TextArea,
+  Dropdown,
 } from "semantic-ui-react";
 import BookSaveStep from "./BookSaveStep";
 import { modalAction } from "../redux/actions/modalAction";
@@ -187,7 +188,32 @@ class SaveBook extends Component {
     }
   };
 
+  onChangeFollower = (event, data) => {
+    this.setState({
+      bookCategory: data.value,
+    });
+  };
+
   renderAdminModal = () => {
+    const options = [
+      { key: 1, text: "Kategori", value: "Kategori" },
+      { key: 2, text: "Dünya Klasikleri", value: "Dünya Klasikleri" },
+      { key: 3, text: "Psikoloji", value: "Psikoloji" },
+      { key: 4, text: "Tarih", value: "Tarih" },
+      { key: 5, text: "Aşk", value: "Aşk" },
+      { key: 6, text: "Siyaset-Politika", value: "Siyaset-Politika" },
+      { key: 7, text: "Kişisel Gelişim", value: "Kişisel Gelişim" },
+      { key: 8, text: "Macera-Aksiyon", value: "Macera-Aksiyon" },
+      { key: 9, text: "Felsefe", value: "Felsefe" },
+      { key: 10, text: "Korku-Gerilim", value: "Korku-Gerilim" },
+      { key: 11, text: "Polisiye", value: "Polisiye" },
+      { key: 12, text: "Fantastik", value: "Fantastik" },
+      { key: 13, text: "Eğitim", value: "Eğitim" },
+      { key: 14, text: "Spor", value: "Spor" },
+      { key: 15, text: "Gezi", value: "Gezi" },
+      { key: 16, text: "Yemek", value: "Yemek" },
+      { key: 17, text: "Dergi", value: "Dergi" },
+    ];
     return (
       <Modal
         onClose={this.handleModalOnClose}
@@ -302,15 +328,12 @@ class SaveBook extends Component {
                 )}
                 <div className="input">
                   <label className="label-book">Kategori :</label>
-                  <Input
+                  <Dropdown
                     className="category-width"
-                    value={this.state.bookCategory}
-                    onChange={(event) =>
-                      this.setState({
-                        bookCategory: event.target.value,
-                      })
-                    }
-                    placeholder="Kategori giriniz..."
+                    placeholder="Kategoriler"
+                    selection
+                    onChange={this.onChangeFollower}
+                    options={options}
                   />
 
                   <Button
