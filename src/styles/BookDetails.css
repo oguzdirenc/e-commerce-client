@@ -2,6 +2,7 @@
   margin-left: 3% !important;
   margin-top: 0px !important;
   font-family: cursive;
+  text-align: left;
 }
 .bookDetail-label {
   font-weight: bold;
@@ -18,4 +19,8 @@
 .bookDescription {
   font-family: cursive;
   text-align: left;
+}
+.bookLinkBg {
+  background-color: #29596e !important;
+  color: white !important;
 }

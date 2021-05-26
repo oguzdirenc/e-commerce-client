@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   Button,
   Comment,
@@ -8,8 +9,10 @@ import {
   Grid,
   GridRow,
   Header,
+  Icon,
   Image,
   Input,
+  Label,
   Modal,
   Rating,
   Segment,
@@ -128,6 +131,36 @@ export class BookDetails extends Component {
                       ) : (
                         ""
                       )}
+                      {book.bookBuyLink ? (
+                        <div className="input">
+                          <Icon color="blue" name="linkify"></Icon>
+                          <Label className="bookLinkBg">
+                            <a
+                              href={book.bookBuyLink}
+                              className="bookDetail-label"
+                            >
+                              E-Kitap satın al
+                            </a>
+                          </Label>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {book.bookPdfDownloadLink ? (
+                        <div className="input">
+                          <Icon color="blue" name="linkify"></Icon>
+                          <Label className="bookLinkBg">
+                            <a
+                              href={book.bookPdfDownloadLink}
+                              className="bookDetail-label"
+                            >
+                              E-Kitap satın indir
+                            </a>
+                          </Label>
+                        </div>
+                      ) : (
+                        ""
+                      )}
                       <Grid>
                         <Grid.Row>
                           <Grid.Column width={6}></Grid.Column>
@@ -164,10 +197,10 @@ export class BookDetails extends Component {
                               {book.bookDescription}
                             </p>
                           ) : (
-                            <p className="bookDescription">
+                            <h5 className="bookDescription errorMessage">
                               Bu kitap hakkında bir özet bilgisi şu anda mevcut
                               değil
-                            </p>
+                            </h5>
                           )}
                         </Grid.Row>
                       </Grid>
