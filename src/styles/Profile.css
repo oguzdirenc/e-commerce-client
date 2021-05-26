@@ -1,0 +1,20 @@
+.profileLabel {
+  text-align: right !important;
+  width: 25% !important;
+  font-weight: bold;
+}
+.profileInput {
+  display: flex;
+  align-items: center;
+  margin: 2%;
+}
+.profileInput-width {
+  width: 35% !important;
+  margin-left: 10%;
+}
+.error {
+  width: auto;
+  text-align: left !important;
+  margin-top: 0px !important;
+  color: red;
+}
