@@ -6,7 +6,7 @@ export const saveBookUrl = bookUrl + "/save";
 export const updateBookUrl = bookUrl + "/update";
 export const setBookOrderUrl = bookUrl + "/setOrder";
 export const deleteBookOrderUrl = bookUrl + "/delete/order";
-export const deleteBookUrl = bookUrl + "/delete";
+export const deleteBookUrl = bookUrl + "/delete/";
 export const searhBookUrl = bookUrl + "/search";
 export const filterBookUrl = bookUrl + "/filtered";
 

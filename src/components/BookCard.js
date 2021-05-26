@@ -42,6 +42,16 @@ export class BookCard extends Component {
     }
   };
 
+  handleDeleteBook = () => {
+    try {
+      axios
+        .delete(deleteBookUrl + this.props.book.bookId)
+        .then((r) => console.log(r.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render() {
     const { book, cardType } = this.props;
 
@@ -148,8 +158,10 @@ export class BookCard extends Component {
             </Button>
           )}
 
-          {cardType === "admin" && (
-            <Button onClick={this.handleDeleteBook}>Kitabı Sil</Button>
+          {this.props.security.user.roles === "ADMIN" && (
+            <Button color="red" onClick={this.handleDeleteBook}>
+              Kitabı Sil
+            </Button>
           )}
 
           <Modal

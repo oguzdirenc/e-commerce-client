@@ -18,6 +18,7 @@ import Order from "./components/Order";
 import Search from "./components/Search";
 import BookDetails from "./components/BookDetails";
 import { BookCard } from "./components/BookCard";
+import Profile from "./components/Profile";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -62,6 +63,7 @@ export class App extends Component {
                   <SecuredRoute path="/shoppingCart" component={ShoppingCart} />
                   <SecuredRoute path="/search/:bookName" component={Search} />
                   <SecuredRoute path="/bookDetails" component={BookDetails} />
+                  <SecuredRoute path="/profile" component={Profile} />
                 </div>
               </Switch>
             </BrowserRouter>

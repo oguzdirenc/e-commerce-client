@@ -87,10 +87,16 @@ class Navbar extends Component {
               }}
             >
               <Dropdown.Menu>
-                <Dropdown.Item>Profilim</Dropdown.Item>
-                <Dropdown.Item as={Link} to="/admin">
-                  Admin
+                <Dropdown.Item as={Link} to="/profile">
+                  Profilim
                 </Dropdown.Item>
+                {this.props.security.user.roles === "ADMIN" ? (
+                  <Dropdown.Item as={Link} to="/admin">
+                    Admin
+                  </Dropdown.Item>
+                ) : (
+                  ""
+                )}
                 <Dropdown.Item>Favorilerim</Dropdown.Item>
                 <Dropdown.Item>Siparişlerim</Dropdown.Item>
                 <Dropdown.Item onClick={this.handleLogout}>
